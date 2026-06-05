@@ -35,24 +35,27 @@ asking strangers for feedback.
    [Feedback wanted: security-intake public validation](https://github.com/reportproof/security-intake/issues/3).
 2. Keep the public feedback guide current:
    [docs/public-feedback.md](public-feedback.md).
-3. Keep the external Action playground green:
+3. Keep the maintainer evaluation guide and output gallery current:
+   [docs/maintainer-evaluation.md](maintainer-evaluation.md) and
+   [docs/output-gallery.md](output-gallery.md).
+4. Keep the external Action playground green:
    [reportproof/security-intake-playground](https://github.com/reportproof/security-intake-playground).
-4. Run the local validation path from the README on a fresh clone.
-5. Run `npm run eval`, `npm run check:benchmark-results`, and
+5. Run the local validation path from the README on a fresh clone.
+6. Run `npm run eval`, `npm run check:benchmark-results`, and
    `npm run check:oss-trial-results`.
-6. Review [docs/benchmark-results.md](benchmark-results.md) and
+7. Review [docs/benchmark-results.md](benchmark-results.md) and
    [docs/oss-trial-results.md](oss-trial-results.md), then confirm the
    result does not read like a claim about real upstream vulnerabilities.
-7. Pick 3 to 5 mature OSS project shapes, such as mobile tooling, framework SDK,
+8. Pick 3 to 5 mature OSS project shapes, such as mobile tooling, framework SDK,
    runtime, package manager, or developer infrastructure.
-8. Create only synthetic or sanitized Markdown reports for those shapes.
-9. Run `node dist/cli.js <report.md> --no-fail` on each report.
-10. Record whether the output is:
+9. Create only synthetic or sanitized Markdown reports for those shapes.
+10. Run `node dist/cli.js <report.md> --no-fail` on each report.
+11. Record whether the output is:
    - correct enough to share publicly,
    - confusing but fixable with wording,
    - wrong enough to become a fixture or rule change.
-11. Convert every useful failure into a fixture in `fixtures/` or `benchmarks/`.
-12. Only then draft public posts for X, Reddit, Product Hunt, or Hacker News.
+12. Convert every useful failure into a fixture in `fixtures/` or `benchmarks/`.
+13. Only then draft public posts for X, Reddit, Product Hunt, or Hacker News.
 
 Safety rules:
 
@@ -71,6 +74,8 @@ Minimum gate before broad posting:
 - `docs/benchmark-results.md` is current.
 - `docs/oss-trial-results.md` is current.
 - `docs/public-feedback.md` points people to the structured issue forms.
+- `docs/maintainer-evaluation.md` gives a short external evaluation path.
+- `docs/output-gallery.md` shows ready, salvageable, and low-quality outputs.
 - The playground workflow passes using `reportproof/security-intake@main`.
 - At least 3 new or reviewed OSS-shaped dry runs have an understood decision.
 - Any confusing decision wording has either been fixed or documented as a known limitation.

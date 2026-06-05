@@ -1,22 +1,41 @@
-name: Security intake check
+name: Security intake evaluation
 
 on:
   workflow_dispatch:
+    inputs:
+      report-path:
+        description: Path to a sanitized Markdown report committed to this branch.
+        required: true
+        default: examples/ai-slop-report.md
+
+permissions:
+  contents: read
 
 jobs:
   intake:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+
       - uses: reportproof/security-intake@main
         id: intake
         with:
-          report-path: examples/ai-slop-report.md
+          report-path: ${{ inputs.report-path }}
           config-path: .security-intake.yml
           format: markdown
           output-path: security-intake-result.md
           fail-on-low-quality: "false"
-      - run: |
+
+      - name: Print decision
+        run: |
           echo "decision=${{ steps.intake.outputs.decision }}"
           echo "score=${{ steps.intake.outputs.score }}"
-          cat "${{ steps.intake.outputs.result-path }}"
+          echo "result=${{ steps.intake.outputs.result-path }}"
+
+      - name: Upload intake result
+        uses: actions/upload-artifact@v6
+        with:
+          name: security-intake-result
+          path: ${{ steps.intake.outputs.result-path }}
+          if-no-files-found: error
+          retention-days: 7

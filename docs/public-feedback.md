@@ -23,9 +23,12 @@ node dist/cli.js examples/ai-slop-report.md --no-fail
 
 Then inspect:
 
+- [Maintainer evaluation guide](maintainer-evaluation.md)
+- [Output gallery](output-gallery.md)
 - [OSS triage trial results](oss-trial-results.md)
 - [Benchmark results](benchmark-results.md)
 - [Rule rubric](rubric.md)
+- [GitHub Action evaluation workflow](github-action-evaluation.md)
 - [External GitHub Action playground](https://github.com/reportproof/security-intake-playground)
 
 ## What to judge

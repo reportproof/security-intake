@@ -42,6 +42,8 @@ Then compare the decisions against the examples:
 
 - `examples/good-report.md` should be `ready_for_maintainer_review`.
 - `examples/ai-slop-report.md` should be `likely_low_quality_or_ai_generated`.
+- The maintainer trial path is in [docs/maintainer-evaluation.md](docs/maintainer-evaluation.md).
+- Sample generated outputs are in [docs/output-gallery.md](docs/output-gallery.md).
 - Current benchmark results are published in [docs/benchmark-results.md](docs/benchmark-results.md).
 - The focused OSS-style triage trial is published in [docs/oss-trial-results.md](docs/oss-trial-results.md).
 
@@ -120,6 +122,8 @@ The Action also writes a safe GitHub job summary with the decision, score, resul
 The external Action path is verified in
 [reportproof/security-intake-playground](https://github.com/reportproof/security-intake-playground),
 which uses `reportproof/security-intake@main` from another public repository.
+For a copy-paste report-only workflow that uploads the generated Markdown
+result, see [docs/github-action-evaluation.md](docs/github-action-evaluation.md).
 
 Action outputs:
 
@@ -203,6 +207,9 @@ The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS s
 - Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - Support scope: [SUPPORT.md](SUPPORT.md)
 - Public feedback guide: [docs/public-feedback.md](docs/public-feedback.md)
+- Maintainer evaluation guide: [docs/maintainer-evaluation.md](docs/maintainer-evaluation.md)
+- Output gallery: [docs/output-gallery.md](docs/output-gallery.md)
+- GitHub Action evaluation: [docs/github-action-evaluation.md](docs/github-action-evaluation.md)
 - Architecture: [docs/architecture.md](docs/architecture.md)
 - Release checklist: [docs/release.md](docs/release.md)
 - Validation plan: [docs/validation-plan.md](docs/validation-plan.md)
