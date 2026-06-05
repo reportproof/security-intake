@@ -1,0 +1,7 @@
+minReadyScore: 70
+maxMissingForReady: 2
+lowQualitySignalsForLikely: 3
+missingForLikelyLowQuality: 3
+penaltyPerLowQualitySignal: 8
+maxPenalty: 30
+disabledRules:

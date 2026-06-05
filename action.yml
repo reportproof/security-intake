@@ -1,0 +1,48 @@
+name: Security Intake
+description: Check whether a security report has enough evidence before maintainer triage.
+branding:
+  icon: shield
+  color: gray-dark
+inputs:
+  report-path:
+    description: Path to the Markdown security report to check.
+    required: true
+  config-path:
+    description: Optional path to a .security-intake.yml, .yaml, or .json config file.
+    required: false
+    default: ""
+  format:
+    description: Output format. Use markdown or json.
+    required: false
+    default: markdown
+  output-path:
+    description: File path where the result should be written.
+    required: false
+    default: security-intake-result.md
+  fail-on-low-quality:
+    description: Whether to fail the workflow when the CLI returns a non-ready decision.
+    required: false
+    default: "false"
+runs:
+  using: composite
+  steps:
+    - name: Run security intake check
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        args=("${{ inputs.report-path }}")
+
+        if [ -n "${{ inputs.config-path }}" ]; then
+          args+=("--config" "${{ inputs.config-path }}")
+        fi
+
+        if [ "${{ inputs.format }}" = "json" ]; then
+          args+=("--json")
+        fi
+
+        if [ "${{ inputs.fail-on-low-quality }}" != "true" ]; then
+          args+=("--no-fail")
+        fi
+
+        node "$GITHUB_ACTION_PATH/src/cli.js" "${args[@]}" | tee "${{ inputs.output-path }}"

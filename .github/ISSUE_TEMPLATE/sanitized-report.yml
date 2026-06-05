@@ -1,0 +1,37 @@
+name: Sanitized report example
+description: Share a sanitized report that should be accepted, rejected, or scored differently.
+title: "[example] "
+labels:
+  - feedback
+  - sanitized-report
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include private vulnerability details, secrets, tokens, customer data, or unpatched exploit paths.
+  - type: textarea
+    id: report
+    attributes:
+      label: Sanitized report
+      description: Paste a redacted report or a synthetic example that captures the pattern.
+      render: markdown
+    validations:
+      required: true
+  - type: dropdown
+    id: expected
+    attributes:
+      label: Expected decision
+      options:
+        - ready_for_maintainer_review
+        - needs_more_evidence
+        - likely_low_quality_or_ai_generated
+        - unsure
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: What should the tool learn from this example?
+    validations:
+      required: true

@@ -1,0 +1,42 @@
+name: Rule gap
+description: A rule is wrong, missing, too strict, or too lenient.
+title: "[rule] "
+labels:
+  - feedback
+  - rule-gap
+body:
+  - type: input
+    id: rule-id
+    attributes:
+      label: Rule ID
+      description: Example RP003_REPRODUCTION_STEPS. Use "new rule" if this is missing.
+    validations:
+      required: true
+  - type: dropdown
+    id: problem
+    attributes:
+      label: Problem
+      options:
+        - false positive
+        - false negative
+        - too strict
+        - too lenient
+        - missing rule
+        - unclear output
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Sanitized example
+      description: Provide a redacted or synthetic report snippet.
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should the tool do instead?
+    validations:
+      required: true

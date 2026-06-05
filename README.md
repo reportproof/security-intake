@@ -1,25 +1,29 @@
 # security-intake
 
-Open-source security report intake checks for maintainers.
+Evidence checks for security reports before maintainers triage them.
 
-`security-intake` is a small CLI that reviews incoming vulnerability reports, scanner dumps, and AI-generated security submissions before a maintainer spends time on them. It does not decide whether a vulnerability is real. It checks whether the report has enough evidence to be worth human triage.
+`security-intake` is an open-source CLI and GitHub Action that reviews incoming vulnerability reports, scanner dumps, and AI-generated security submissions for report quality. It does **not** decide whether a vulnerability is real. It checks whether the report has enough evidence to be worth human triage.
 
-## Why
+## Why this exists
 
-Maintainers are increasingly receiving low-quality or AI-generated security reports that look plausible but lack affected versions, reproduction steps, proof of impact, or enough detail to verify. The first goal is to make incomplete reports cheap to identify and respond to.
+Maintainers are being asked to spend time on reports that look plausible but lack affected versions, reproduction steps, proof of impact, or any tested evidence. The first ReportProof goal is to make incomplete reports cheap to identify, cheap to respond to, and easy to improve.
+
+See [docs/problem.md](docs/problem.md) for the public evidence behind the problem.
 
 ## Quick start
 
 ```bash
 npm install
-npm run check
+npm test
+node src/cli.js examples/ai-slop-report.md --no-fail
 ```
 
 Run against any Markdown report:
 
 ```bash
-node src/cli.js examples/ai-slop-report.md
-node src/cli.js examples/good-report.md --json
+node src/cli.js examples/good-report.md
+node src/cli.js examples/ai-slop-report.md --json --no-fail
+node src/cli.js examples/scanner-dump.md --config .security-intake.yml --no-fail
 ```
 
 ## Example output
@@ -27,18 +31,86 @@ node src/cli.js examples/good-report.md --json
 ```md
 # Security Intake Result
 
-Decision: needs_more_evidence
-Score: 35/100
+Decision: likely_low_quality_or_ai_generated
+Exit code: 2
+Score: 0/100
 
 ## Missing Evidence
-- Affected version or commit
-- Reproduction steps
-- Concrete impact
-- Proof of concept or observable evidence
+- RP001_AFFECTED_VERSION: Affected version or commit (high)
+- RP003_REPRODUCTION_STEPS: Reproduction steps (high)
+- RP006_PROOF_OR_EVIDENCE: Proof of concept or observable evidence (high)
 
 ## Suggested Maintainer Response
 Thanks for the report. We cannot assess this as a vulnerability without...
 ```
+
+## Decisions and exit codes
+
+| Decision | Exit code | Meaning |
+| --- | ---: | --- |
+| `ready_for_maintainer_review` | 0 | The report has enough initial evidence for a human to triage. |
+| `needs_more_evidence` | 1 | The report is missing important evidence, but may be salvageable. |
+| `likely_low_quality_or_ai_generated` | 2 | The report combines missing evidence with multiple low-quality signals. |
+
+Use `--no-fail` when you want a report without failing a script or GitHub Action step.
+
+## GitHub Action
+
+This repository can be used as a composite GitHub Action.
+
+```yaml
+name: Security intake check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: reportproof/security-intake@main
+        with:
+          report-path: examples/ai-slop-report.md
+          config-path: .security-intake.yml
+          format: markdown
+          fail-on-low-quality: "false"
+```
+
+For early validation, keep `fail-on-low-quality` set to `false` and review the generated output manually.
+
+## Configuration
+
+Create `.security-intake.yml` in your repo:
+
+```yaml
+minReadyScore: 70
+maxMissingForReady: 2
+lowQualitySignalsForLikely: 3
+missingForLikelyLowQuality: 3
+disabledRules:
+```
+
+See [docs/configuration.md](docs/configuration.md).
+
+## Rule rubric
+
+Rules have stable IDs so maintainers can critique specific checks:
+
+- `RP001_AFFECTED_VERSION`
+- `RP002_AFFECTED_COMPONENT`
+- `RP003_REPRODUCTION_STEPS`
+- `RP004_OBSERVED_RESULT`
+- `RP005_SECURITY_IMPACT`
+- `RP006_PROOF_OR_EVIDENCE`
+- `RP007_TESTED_ENVIRONMENT`
+- `RP101_SPECULATIVE_IMPACT`
+- `RP102_UNTESTED_CLAIM`
+- `RP103_GENERIC_SCANNER_DUMP`
+- `RP104_NO_CONCRETE_TARGET`
+- `RP105_AI_GENERATED_DISCLOSURE`
+
+See [docs/rubric.md](docs/rubric.md).
 
 ## Current scope
 
@@ -46,7 +118,9 @@ Thanks for the report. We cannot assess this as a vulnerability without...
 - Missing-evidence detection.
 - Speculative-language detection.
 - Maintainer-readable Markdown output.
-- JSON output for future GitHub Action integration.
+- JSON output for integrations.
+- Configurable thresholds and disabled rules.
+- GitHub Action wrapper.
 
 ## Not in scope yet
 
@@ -55,7 +129,15 @@ Thanks for the report. We cannot assess this as a vulnerability without...
 - Automatic issue closing.
 - Hosted SaaS workflow.
 - Bug bounty marketplace replacement.
+- LLM-based triage.
 
-## Project status
+## Public validation
 
-This is an early validation repo. The near-term goal is to test whether maintainers find a simple report-quality gate useful before building heavier automation.
+This is an early validation repo. Useful feedback is specific:
+
+- A sanitized report that this tool classifies incorrectly.
+- A rule that should be stricter or more lenient for your project.
+- A missing field that maintainers need before triage.
+- A workflow where this could save time without annoying legitimate researchers.
+
+Open a feedback issue with a sanitized example. Do not post private vulnerabilities publicly.
