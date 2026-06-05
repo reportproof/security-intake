@@ -6,8 +6,8 @@ These results test report-quality classification only. They do not claim that an
 
 ## Summary
 
-- Cases: 25
-- Passed: 25
+- Cases: 29
+- Passed: 29
 - Failed: 0
 
 | Profile | Cases | Ready | Needs evidence | Low quality |
@@ -16,6 +16,10 @@ These results test report-quality classification only. They do not claim that an
 | Expo-style | 5 | 1 | 3 | 1 |
 | Flutter-style | 5 | 1 | 3 | 1 |
 | Node.js-style | 5 | 2 | 2 | 1 |
+| Kubernetes-style | 1 | 1 | 0 | 0 |
+| pnpm-style | 1 | 0 | 1 | 0 |
+| Homebrew-style | 1 | 1 | 0 | 0 |
+| Rust-style | 1 | 0 | 0 | 1 |
 
 ## Cases
 
@@ -46,11 +50,15 @@ These results test report-quality classification only. They do not claim that an
 | Node.js-style | [nodejs-style-scanner-dump-runtime](../benchmarks/nodejs-style/scanner-dump-runtime.md) | Likely low quality / AI-generated | Likely low quality / AI-generated | 0 | Pass | Generic runtime scanner dumps should be routed away from maintainer triage. |
 | Node.js-style | [nodejs-style-third-party-module-boundary](../benchmarks/nodejs-style/third-party-module-boundary.md) | Ready for maintainer review | Ready for maintainer review | 92 | Pass | The tool should qualify report evidence, not decide project-specific vulnerability policy. |
 | Node.js-style | [nodejs-style-experimental-platform-missing-impact](../benchmarks/nodejs-style/experimental-platform-missing-impact.md) | Needs more evidence | Needs more evidence | 82 | Pass | Unsupported-platform bugs still need attacker capability or security impact evidence. |
+| Kubernetes-style | [kubernetes-style-complete-admission-policy-bypass](../benchmarks/kubernetes-style/complete-admission-policy-bypass.md) | Ready for maintainer review | Ready for maintainer review | 100 | Pass | Infrastructure/control-plane reports with concrete repro, logs, and impact should reach maintainer triage. |
+| pnpm-style | [pnpm-style-lockfile-tarball-integrity-missing-proof](../benchmarks/pnpm-style/lockfile-tarball-integrity-missing-proof.md) | Needs more evidence | Needs more evidence | 86 | Pass | Package-manager supply-chain claims should ask for proof before maintainer triage. |
+| Homebrew-style | [homebrew-style-third-party-tap-boundary-complete](../benchmarks/homebrew-style/third-party-tap-boundary-complete.md) | Ready for maintainer review | Ready for maintainer review | 92 | Pass | The tool should preserve evidence-complete boundary reports for maintainers rather than deciding project scope itself. |
+| Rust-style | [rust-style-vague-ai-toolchain-claim](../benchmarks/rust-style/vague-ai-toolchain-claim.md) | Likely low quality / AI-generated | Likely low quality / AI-generated | 0 | Pass | AI-generated language/toolchain claims should not reach direct triage without concrete evidence. |
 
 ## Safety Notes
 
 - Benchmark profiles are synthetic style fixtures, not upstream project reports.
 - Do not open upstream issues based on these fixtures.
-- Use the results to critique `security-intake` decisions, not Expo, Flutter, Node.js, or their maintainers.
+- Use the results to critique `security-intake` decisions, not Expo, Flutter, Node.js, Kubernetes, pnpm, Homebrew, Rust, or their maintainers.
 - `ready_for_maintainer_review` means evidence readiness, not vulnerability truth.
 

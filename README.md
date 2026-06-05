@@ -193,5 +193,6 @@ The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS s
 - Validation plan: [docs/validation-plan.md](docs/validation-plan.md)
 - Evaluation corpus: [docs/evaluation.md](docs/evaluation.md)
 - Public OSS benchmarks: [docs/benchmarks.md](docs/benchmarks.md)
+- Current OSS trial runs: [docs/oss-trial-runs.md](docs/oss-trial-runs.md)
 - Benchmark results: [docs/benchmark-results.md](docs/benchmark-results.md)
 - Trust and safety: [docs/trust-safety.md](docs/trust-safety.md)

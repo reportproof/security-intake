@@ -265,5 +265,42 @@
     "expectedDecision": "needs_more_evidence",
     "expectedMissing": ["RP005_SECURITY_IMPACT"],
     "protects": "Unsupported-platform bugs still need attacker capability or security impact evidence."
+  },
+  {
+    "id": "kubernetes-style-complete-admission-policy-bypass",
+    "reportPath": "benchmarks/kubernetes-style/complete-admission-policy-bypass.md",
+    "description": "Kubernetes-style complete control-plane admission policy report.",
+    "expectedDecision": "ready_for_maintainer_review",
+    "expectedMissing": [],
+    "protects": "Infrastructure/control-plane reports with concrete repro, logs, and impact should reach maintainer triage."
+  },
+  {
+    "id": "pnpm-style-lockfile-tarball-integrity-missing-proof",
+    "reportPath": "benchmarks/pnpm-style/lockfile-tarball-integrity-missing-proof.md",
+    "description": "pnpm-style package-manager integrity report that lacks proof.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP006_PROOF_OR_EVIDENCE"],
+    "protects": "Package-manager supply-chain claims should ask for proof before maintainer triage."
+  },
+  {
+    "id": "homebrew-style-third-party-tap-boundary-complete",
+    "reportPath": "benchmarks/homebrew-style/third-party-tap-boundary-complete.md",
+    "description": "Homebrew-style evidence-complete report where final validity depends on project boundary policy.",
+    "expectedDecision": "ready_for_maintainer_review",
+    "expectedMissing": [],
+    "protects": "The tool should preserve evidence-complete boundary reports for maintainers rather than deciding project scope itself."
+  },
+  {
+    "id": "rust-style-vague-ai-toolchain-claim",
+    "reportPath": "benchmarks/rust-style/vague-ai-toolchain-claim.md",
+    "description": "Rust-style vague AI-generated language toolchain claim.",
+    "expectedDecision": "likely_low_quality_or_ai_generated",
+    "expectedLowQualitySignals": [
+      "RP101_SPECULATIVE_IMPACT",
+      "RP102_UNTESTED_CLAIM",
+      "RP104_NO_CONCRETE_TARGET",
+      "RP105_AI_GENERATED_DISCLOSURE"
+    ],
+    "protects": "AI-generated language/toolchain claims should not reach direct triage without concrete evidence."
   }
 ]
