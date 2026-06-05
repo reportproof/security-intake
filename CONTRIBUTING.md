@@ -4,6 +4,11 @@ ReportProof is validating a narrow workflow: checking whether security reports c
 
 Useful contributions are specific and evidence-backed.
 
+If you are evaluating whether this fits your maintainer workflow, start with
+[docs/public-feedback.md](docs/public-feedback.md). Use the issue forms for
+sanitized report examples, rule gaps, workflow feedback, and integration
+requests.
+
 ## Good first contributions
 
 - Add a sanitized fixture that exposes a false positive or false negative.

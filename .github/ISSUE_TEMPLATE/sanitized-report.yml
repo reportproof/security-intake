@@ -1,5 +1,5 @@
 name: Sanitized report example
-description: Share a sanitized report that should be accepted, rejected, or scored differently.
+description: Share a synthetic or redacted report that should be accepted, rejected, or scored differently.
 title: "[example] "
 labels:
   - feedback
@@ -8,19 +8,64 @@ body:
   - type: markdown
     attributes:
       value: |
-        Do not include private vulnerability details, secrets, tokens, customer data, or unpatched exploit paths.
+        Thanks for helping validate `security-intake`.
+
+        Do not include private vulnerability details, secrets, tokens, customer data, live targets, or unpatched exploit paths. Synthetic examples are preferred.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: This example is synthetic or safely redacted.
+          required: true
+        - label: This issue does not include secrets, customer data, private reports, or active exploit instructions.
+          required: true
+  - type: dropdown
+    id: reporter-role
+    attributes:
+      label: Your perspective
+      options:
+        - open-source maintainer
+        - commercial OSS maintainer
+        - AppSec/product security
+        - bug bounty or VDP triage
+        - security researcher
+        - other
+    validations:
+      required: true
   - type: textarea
     id: report
     attributes:
       label: Sanitized report
-      description: Paste a redacted report or a synthetic example that captures the pattern.
+      description: Paste a redacted report or synthetic example that captures the report shape.
       render: markdown
+    validations:
+      required: true
+  - type: input
+    id: command
+    attributes:
+      label: Command or Action setup used
+      description: "Example `node dist/cli.js my-report.md --no-fail` or `uses: reportproof/security-intake@main`."
+      placeholder: node dist/cli.js my-report.md --no-fail
+    validations:
+      required: false
+  - type: dropdown
+    id: actual
+    attributes:
+      label: Actual decision
+      description: What did `security-intake` return?
+      options:
+        - ready_for_maintainer_review
+        - needs_more_evidence
+        - likely_low_quality_or_ai_generated
+        - not run yet
     validations:
       required: true
   - type: dropdown
     id: expected
     attributes:
       label: Expected decision
+      description: What should the tool return for this report shape?
       options:
         - ready_for_maintainer_review
         - needs_more_evidence
@@ -31,7 +76,15 @@ body:
   - type: textarea
     id: why
     attributes:
-      label: Why
-      description: What should the tool learn from this example?
+      label: Why the actual result is wrong or useful
+      description: Explain the maintainer triage outcome you would want.
     validations:
       required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Relevant output
+      description: Paste the generated result if it is safe to share. Rule IDs are usually enough.
+      render: markdown
+    validations:
+      required: false

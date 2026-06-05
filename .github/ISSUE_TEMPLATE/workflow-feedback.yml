@@ -5,6 +5,12 @@ labels:
   - feedback
   - workflow
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for workflow critique: where `security-intake` would save time, create friction, or need different output.
+
+        Do not include private vulnerability details. Describe the workflow, not a live report.
   - type: dropdown
     id: role
     attributes:
@@ -18,11 +24,19 @@ body:
         - other
     validations:
       required: true
+  - type: input
+    id: project-type
+    attributes:
+      label: Project or program type
+      description: Example framework SDK, runtime, package manager, SaaS OSS repo, VDP, bug bounty program.
+      placeholder: framework SDK
+    validations:
+      required: true
   - type: textarea
     id: workflow
     attributes:
       label: Current workflow
-      description: How do reports arrive and get triaged today?
+      description: How do reports arrive and get triaged today? Include tools or queues if safe.
     validations:
       required: true
   - type: textarea
@@ -39,3 +53,22 @@ body:
       description: What would make you reject this workflow?
     validations:
       required: true
+  - type: dropdown
+    id: adoption
+    attributes:
+      label: Would you try this in the next 30 days?
+      options:
+        - yes, as CLI only
+        - yes, as GitHub Action
+        - maybe, after output/rule changes
+        - no, not useful for this workflow
+        - unsure
+    validations:
+      required: true
+  - type: textarea
+    id: success-signal
+    attributes:
+      label: What would prove value?
+      description: What outcome would convince you this saves maintainer or triage time?
+    validations:
+      required: false
