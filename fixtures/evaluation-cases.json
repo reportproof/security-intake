@@ -128,5 +128,142 @@
       "RP104_NO_CONCRETE_TARGET"
     ],
     "protects": "Reports without a concrete target should not consume direct maintainer triage time."
+  },
+  {
+    "id": "expo-style-complete-auth-session-redirect",
+    "reportPath": "benchmarks/expo-style/complete-auth-session-redirect.md",
+    "description": "Expo-style complete report around an auth redirect trust boundary.",
+    "expectedDecision": "ready_for_maintainer_review",
+    "expectedMissing": [],
+    "protects": "Mobile/devtool-style complete reports should reach maintainer triage."
+  },
+  {
+    "id": "expo-style-config-secret-confusion",
+    "reportPath": "benchmarks/expo-style/config-secret-confusion.md",
+    "description": "Expo-style public config report that does not establish security impact.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP005_SECURITY_IMPACT"],
+    "protects": "Bundled public config is not enough without concrete sensitive-data impact."
+  },
+  {
+    "id": "expo-style-dependency-alert-no-reachability",
+    "reportPath": "benchmarks/expo-style/dependency-alert-no-reachability.md",
+    "description": "Expo-style dependency scanner alert without project reachability.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP003_REPRODUCTION_STEPS", "RP006_PROOF_OR_EVIDENCE"],
+    "expectedLowQualitySignals": ["RP103_GENERIC_SCANNER_DUMP"],
+    "protects": "Mobile dependency alerts need project-specific reachability evidence."
+  },
+  {
+    "id": "expo-style-eas-build-log-leak-missing-proof",
+    "reportPath": "benchmarks/expo-style/eas-build-log-leak-missing-proof.md",
+    "description": "Expo-style build log report that claims impact but cannot provide proof.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP006_PROOF_OR_EVIDENCE"],
+    "protects": "Potentially sensitive build-log claims should ask for sanitized proof before triage."
+  },
+  {
+    "id": "expo-style-vague-ai-mobile-claim",
+    "reportPath": "benchmarks/expo-style/vague-ai-mobile-claim.md",
+    "description": "Expo-style vague AI-generated mobile security claim.",
+    "expectedDecision": "likely_low_quality_or_ai_generated",
+    "expectedLowQualitySignals": [
+      "RP101_SPECULATIVE_IMPACT",
+      "RP102_UNTESTED_CLAIM",
+      "RP104_NO_CONCRETE_TARGET",
+      "RP105_AI_GENERATED_DISCLOSURE"
+    ],
+    "protects": "AI-generated mobile claims should meet the same evidence bar."
+  },
+  {
+    "id": "flutter-style-complete-platform-channel-webview",
+    "reportPath": "benchmarks/flutter-style/complete-platform-channel-webview.md",
+    "description": "Flutter-style complete platform channel report.",
+    "expectedDecision": "ready_for_maintainer_review",
+    "expectedMissing": [],
+    "protects": "Framework-style complete reports should reach maintainer triage."
+  },
+  {
+    "id": "flutter-style-dependency-cve-no-applicability",
+    "reportPath": "benchmarks/flutter-style/dependency-cve-no-applicability.md",
+    "description": "Flutter-style dependency CVE report without applicability proof.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP003_REPRODUCTION_STEPS", "RP006_PROOF_OR_EVIDENCE"],
+    "expectedLowQualitySignals": ["RP103_GENERIC_SCANNER_DUMP"],
+    "protects": "SDK dependency alerts should not skip applicability and reachability evidence."
+  },
+  {
+    "id": "flutter-style-platform-specific-claim-missing-proof",
+    "reportPath": "benchmarks/flutter-style/platform-specific-claim-missing-proof.md",
+    "description": "Flutter-style platform-specific claim without proof.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP006_PROOF_OR_EVIDENCE"],
+    "protects": "Platform-specific claims should require logs, tests, or other proof."
+  },
+  {
+    "id": "flutter-style-stable-channel-missing-version",
+    "reportPath": "benchmarks/flutter-style/stable-channel-missing-version.md",
+    "description": "Flutter-style report missing affected stable version or commit.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP001_AFFECTED_VERSION"],
+    "protects": "Large SDK projects need exact affected version/channel information."
+  },
+  {
+    "id": "flutter-style-vague-ai-framework-claim",
+    "reportPath": "benchmarks/flutter-style/vague-ai-framework-claim.md",
+    "description": "Flutter-style vague AI-generated framework claim.",
+    "expectedDecision": "likely_low_quality_or_ai_generated",
+    "expectedLowQualitySignals": [
+      "RP101_SPECULATIVE_IMPACT",
+      "RP102_UNTESTED_CLAIM",
+      "RP104_NO_CONCRETE_TARGET",
+      "RP105_AI_GENERATED_DISCLOSURE"
+    ],
+    "protects": "AI-generated framework claims should not reach direct triage without evidence."
+  },
+  {
+    "id": "nodejs-style-complete-http-parser-dos",
+    "reportPath": "benchmarks/nodejs-style/complete-http-parser-dos.md",
+    "description": "Node.js-style complete runtime denial-of-service report.",
+    "expectedDecision": "ready_for_maintainer_review",
+    "expectedMissing": [],
+    "protects": "Mature runtime-style complete reports should reach maintainer triage."
+  },
+  {
+    "id": "nodejs-style-missing-affected-version",
+    "reportPath": "benchmarks/nodejs-style/missing-affected-version.md",
+    "description": "Node.js-style report missing affected version, release, tag, sha, or commit.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP001_AFFECTED_VERSION"],
+    "protects": "Runtime projects need exact affected version information before triage."
+  },
+  {
+    "id": "nodejs-style-scanner-dump-runtime",
+    "reportPath": "benchmarks/nodejs-style/scanner-dump-runtime.md",
+    "description": "Node.js-style generic runtime scanner dump.",
+    "expectedDecision": "likely_low_quality_or_ai_generated",
+    "expectedLowQualitySignals": [
+      "RP101_SPECULATIVE_IMPACT",
+      "RP102_UNTESTED_CLAIM",
+      "RP103_GENERIC_SCANNER_DUMP",
+      "RP104_NO_CONCRETE_TARGET"
+    ],
+    "protects": "Generic runtime scanner dumps should be routed away from maintainer triage."
+  },
+  {
+    "id": "nodejs-style-third-party-module-boundary",
+    "reportPath": "benchmarks/nodejs-style/third-party-module-boundary.md",
+    "description": "Node.js-style evidence-complete report whose final validity depends on project policy.",
+    "expectedDecision": "ready_for_maintainer_review",
+    "expectedMissing": [],
+    "protects": "The tool should qualify report evidence, not decide project-specific vulnerability policy."
+  },
+  {
+    "id": "nodejs-style-experimental-platform-missing-impact",
+    "reportPath": "benchmarks/nodejs-style/experimental-platform-missing-impact.md",
+    "description": "Node.js-style experimental platform report that lacks security impact.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP005_SECURITY_IMPACT"],
+    "protects": "Unsupported-platform bugs still need attacker capability or security impact evidence."
   }
 ]

@@ -160,7 +160,7 @@ This is an early validation repo. Useful feedback is specific:
 
 Open a feedback issue with a sanitized example. Do not post private vulnerabilities publicly.
 
-The synthetic validation corpus lives in [fixtures/](fixtures/) and is documented in [docs/evaluation.md](docs/evaluation.md). Run `npm run eval` before changing the rubric. Trust and safety guidance is in [docs/trust-safety.md](docs/trust-safety.md).
+The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS style benchmarks live in [benchmarks/](benchmarks/). Both are documented in [docs/evaluation.md](docs/evaluation.md) and [docs/benchmarks.md](docs/benchmarks.md). Run `npm run eval` before changing the rubric. Trust and safety guidance is in [docs/trust-safety.md](docs/trust-safety.md).
 
 ## Project operations
 
@@ -171,4 +171,5 @@ The synthetic validation corpus lives in [fixtures/](fixtures/) and is documente
 - Release checklist: [docs/release.md](docs/release.md)
 - Validation plan: [docs/validation-plan.md](docs/validation-plan.md)
 - Evaluation corpus: [docs/evaluation.md](docs/evaluation.md)
+- Public OSS benchmarks: [docs/benchmarks.md](docs/benchmarks.md)
 - Trust and safety: [docs/trust-safety.md](docs/trust-safety.md)
