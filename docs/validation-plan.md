@@ -36,8 +36,10 @@ asking strangers for feedback.
 2. Keep the external Action playground green:
    [reportproof/security-intake-playground](https://github.com/reportproof/security-intake-playground).
 3. Run the local validation path from the README on a fresh clone.
-4. Run `npm run eval` and `npm run check:benchmark-results`.
-5. Review [docs/benchmark-results.md](benchmark-results.md) and confirm the
+4. Run `npm run eval`, `npm run check:benchmark-results`, and
+   `npm run check:oss-trial-results`.
+5. Review [docs/benchmark-results.md](benchmark-results.md) and
+   [docs/oss-trial-results.md](oss-trial-results.md), then confirm the
    result does not read like a claim about real upstream vulnerabilities.
 6. Pick 3 to 5 mature OSS project shapes, such as mobile tooling, framework SDK,
    runtime, package manager, or developer infrastructure.
@@ -65,6 +67,7 @@ Minimum gate before broad posting:
 - CodeQL passes on `main`.
 - Secret scanning has zero alerts.
 - `docs/benchmark-results.md` is current.
+- `docs/oss-trial-results.md` is current.
 - The playground workflow passes using `reportproof/security-intake@main`.
 - At least 3 new or reviewed OSS-shaped dry runs have an understood decision.
 - Any confusing decision wording has either been fixed or documented as a known limitation.

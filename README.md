@@ -39,6 +39,7 @@ Then compare the decisions against the examples:
 - `examples/good-report.md` should be `ready_for_maintainer_review`.
 - `examples/ai-slop-report.md` should be `likely_low_quality_or_ai_generated`.
 - Current benchmark results are published in [docs/benchmark-results.md](docs/benchmark-results.md).
+- The focused OSS-style triage trial is published in [docs/oss-trial-results.md](docs/oss-trial-results.md).
 
 If the output is wrong for your project, comment on [Feedback wanted: security-intake public validation](https://github.com/reportproof/security-intake/issues/3) or open a structured feedback issue. Use sanitized or synthetic examples only.
 
@@ -189,7 +190,7 @@ This is an early validation repo. Useful feedback is specific:
 
 Start with the pinned validation issue: [Feedback wanted: security-intake public validation](https://github.com/reportproof/security-intake/issues/3). To inspect the external Action workflow first, use [reportproof/security-intake-playground](https://github.com/reportproof/security-intake-playground). For structured examples, open a sanitized-report, rule-gap, or workflow-feedback issue. Do not post private vulnerabilities publicly.
 
-The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS style benchmarks live in [benchmarks/](benchmarks/). Both are documented in [docs/evaluation.md](docs/evaluation.md), [docs/benchmarks.md](docs/benchmarks.md), and the current generated results in [docs/benchmark-results.md](docs/benchmark-results.md). Run `npm run eval` before changing the rubric. The pre-public OSS trial plan is in [docs/validation-plan.md](docs/validation-plan.md). Trust and safety guidance is in [docs/trust-safety.md](docs/trust-safety.md).
+The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS style benchmarks live in [benchmarks/](benchmarks/). Both are documented in [docs/evaluation.md](docs/evaluation.md), [docs/benchmarks.md](docs/benchmarks.md), the current generated benchmark results in [docs/benchmark-results.md](docs/benchmark-results.md), and the focused OSS triage trial in [docs/oss-trial-results.md](docs/oss-trial-results.md). Run `npm run eval` before changing the rubric. The pre-public OSS trial plan is in [docs/validation-plan.md](docs/validation-plan.md). Trust and safety guidance is in [docs/trust-safety.md](docs/trust-safety.md).
 
 ## Project operations
 
@@ -202,5 +203,6 @@ The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS s
 - Evaluation corpus: [docs/evaluation.md](docs/evaluation.md)
 - Public OSS benchmarks: [docs/benchmarks.md](docs/benchmarks.md)
 - Current OSS trial runs: [docs/oss-trial-runs.md](docs/oss-trial-runs.md)
+- OSS triage trial results: [docs/oss-trial-results.md](docs/oss-trial-results.md)
 - Benchmark results: [docs/benchmark-results.md](docs/benchmark-results.md)
 - Trust and safety: [docs/trust-safety.md](docs/trust-safety.md)

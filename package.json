@@ -41,6 +41,8 @@
     "eval": "npm run evaluate",
     "benchmark:results": "npm run build && node dist/evaluate.js --output docs/benchmark-results.md",
     "check:benchmark-results": "npm run build && node dist/evaluate.js --check-output docs/benchmark-results.md",
+    "oss-trial:results": "npm run build && node dist/evaluate.js --report oss-trial --output docs/oss-trial-results.md",
+    "check:oss-trial-results": "npm run build && node dist/evaluate.js --report oss-trial --check-output docs/oss-trial-results.md",
     "pack:dry-run": "npm pack --dry-run",
     "prepack": "npm run build",
     "test": "npm run build && node --test"

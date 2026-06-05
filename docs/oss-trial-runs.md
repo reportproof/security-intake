@@ -25,15 +25,30 @@ real maintainer workflows.
    - `likely_low_quality_or_ai_generated` when a report is vague, untested, or
      generic enough to waste maintainer triage time.
 5. Add stable cases to `fixtures/evaluation-cases.json` so CI catches regressions.
-6. For GitHub Action validation, use the external playground:
+6. Regenerate the focused OSS-style result table:
+
+   ```bash
+   npm run oss-trial:results
+   npm run check:oss-trial-results
+   ```
+
+7. For GitHub Action validation, use the external playground:
    <https://github.com/reportproof/security-intake-playground>.
    The playground runs `reportproof/security-intake@main` from a separate public
    repository and asserts expected decisions for sanitized sample reports.
+
+The current focused result artifact is
+[docs/oss-trial-results.md](oss-trial-results.md). It isolates the OSS-style
+benchmark cases from the broader synthetic corpus so reviewers can inspect the
+pre-outreach trial without reading every fixture.
 
 ## Trial profiles
 
 | Profile | Public source shape | Trial case | Expected decision | Why it matters |
 | --- | --- | --- | --- | --- |
+| `expo-style` | Mobile app tooling, auth sessions, build logs, public config, and dependency alerts. | Complete, missing proof, scanner, and vague AI report shapes. | Mixed | Mobile/devtool maintainers need to separate actionable reports from dependency noise and public-config misunderstandings. |
+| `flutter-style` | Framework SDK, platform channels, stable channel versions, and dependency applicability. | Complete, missing version/proof, scanner, and vague AI report shapes. | Mixed | Framework maintainers need exact channel/version and platform evidence before spending triage time. |
+| `nodejs-style` | Runtime surface, third-party module boundaries, unsupported platforms, and scanner dumps. | Complete, missing version/impact, scanner, and policy-boundary report shapes. | Mixed | Runtime maintainers need evidence routing without the tool deciding final security scope. |
 | `kubernetes-style` | Private security disclosure, security response process, control-plane complexity. | Complete admission policy bypass report. | `ready_for_maintainer_review` | Infrastructure reports with concrete affected version, component, repro, logs, and impact should reach maintainer triage. |
 | `pnpm-style` | Supported versions and GitHub private advisory intake for a package manager. | Lockfile tarball integrity report missing proof. | `needs_more_evidence` | Supply-chain claims need project-specific proof before security triage. |
 | `homebrew-style` | Explicit security boundary around Homebrew-maintained code, official metadata, taps, scanners, and user-controlled inputs. | Evidence-complete third-party tap boundary report. | `ready_for_maintainer_review` | The tool should qualify report evidence, not decide final project policy scope. |
