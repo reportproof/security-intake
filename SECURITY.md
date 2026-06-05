@@ -2,6 +2,9 @@
 
 This repository is an early security tooling project. Please report suspected vulnerabilities through GitHub private vulnerability reporting when available, or by opening a public issue only if the report does not expose exploitable details.
 
+Private vulnerability reports for this repository should use:
+<https://github.com/reportproof/security-intake/security/advisories/new>.
+
 Useful reports should include:
 
 - Affected version or commit.
