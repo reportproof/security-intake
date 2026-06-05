@@ -1,0 +1,55 @@
+# Current OSS Trial Runs
+
+This document records the safe trial method for testing `security-intake`
+against current open-source project shapes.
+
+The goal is not to scan upstream repositories or find vulnerabilities. The goal
+is to check whether `security-intake` handles report-quality patterns that match
+real maintainer workflows.
+
+## Trial method
+
+1. Read only public process documentation such as `SECURITY.md`, vulnerability
+   reporting pages, support boundaries, and public security process docs.
+2. Create synthetic Markdown reports that mirror the workflow shape without
+   copying private report details or claiming any upstream vulnerability.
+3. Run each synthetic report through the local CLI:
+
+   ```bash
+   node dist/cli.js benchmarks/<profile>/<report>.md --no-fail
+   ```
+
+4. Record whether the decision is understandable:
+   - `ready_for_maintainer_review` when the report has concrete evidence,
+   - `needs_more_evidence` when a salvageable report is missing proof or scope,
+   - `likely_low_quality_or_ai_generated` when a report is vague, untested, or
+     generic enough to waste maintainer triage time.
+5. Add stable cases to `fixtures/evaluation-cases.json` so CI catches regressions.
+
+## Trial profiles
+
+| Profile | Public source shape | Trial case | Expected decision | Why it matters |
+| --- | --- | --- | --- | --- |
+| `kubernetes-style` | Private security disclosure, security response process, control-plane complexity. | Complete admission policy bypass report. | `ready_for_maintainer_review` | Infrastructure reports with concrete affected version, component, repro, logs, and impact should reach maintainer triage. |
+| `pnpm-style` | Supported versions and GitHub private advisory intake for a package manager. | Lockfile tarball integrity report missing proof. | `needs_more_evidence` | Supply-chain claims need project-specific proof before security triage. |
+| `homebrew-style` | Explicit security boundary around Homebrew-maintained code, official metadata, taps, scanners, and user-controlled inputs. | Evidence-complete third-party tap boundary report. | `ready_for_maintainer_review` | The tool should qualify report evidence, not decide final project policy scope. |
+| `rust-style` | Central security response policy, toolchain scope, trusted source/dependency assumptions, and explicit out-of-scope areas. | Vague AI-generated toolchain claim. | `likely_low_quality_or_ai_generated` | Language/toolchain maintainers should not receive direct triage work from untested AI claims with no concrete target. |
+
+## Sources Used
+
+- Kubernetes security and disclosure information: <https://kubernetes.io/docs/reference/issues-security/security/>
+- Kubernetes Security Response Committee docs: <https://github.com/kubernetes/committee-security-response>
+- pnpm security policy: <https://github.com/pnpm/pnpm/security/policy>
+- Homebrew security policy: <https://github.com/Homebrew/brew/security/policy>
+- Rust security policy: <https://www.rust-lang.org/policies/security>
+
+## Safety Rules
+
+- Do not scan upstream code.
+- Do not open upstream security advisories or public issues from these fixtures.
+- Do not imply that Kubernetes, pnpm, Homebrew, Rust, or related projects have
+  vulnerabilities because a synthetic report passed `ready_for_maintainer_review`.
+- Do not include real exploit details, secrets, private reports, customer data,
+  or active zero-day material.
+- Keep profile names as `*-style` to make clear that the cases are workflow
+  simulations, not upstream reports.

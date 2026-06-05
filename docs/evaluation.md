@@ -36,10 +36,15 @@ CI runs the same command on every push and pull request.
 | `expo-style` | 5 | Mobile/devtool reports around auth redirects, public config, dependency noise, build logs, and vague AI claims. |
 | `flutter-style` | 5 | SDK/framework reports around platform channels, stable-channel versioning, dependency applicability, platform proof, and vague AI claims. |
 | `nodejs-style` | 5 | Runtime reports around denial-of-service, affected versions, scanner dumps, and project-policy boundaries. |
+| `kubernetes-style` | 1 | Infrastructure/control-plane report with complete admission policy evidence. |
+| `pnpm-style` | 1 | Package-manager supply-chain report that needs proof before triage. |
+| `homebrew-style` | 1 | Evidence-complete package-manager boundary report where maintainers decide final scope. |
+| `rust-style` | 1 | Vague AI-generated language/toolchain claim with no concrete evidence. |
 
-The benchmark cases are synthetic and not endorsed by Expo, Flutter, Node.js, or
-their maintainers. They are style benchmarks for report-quality behavior only.
-See [docs/benchmarks.md](benchmarks.md).
+The benchmark cases are synthetic and not endorsed by Expo, Flutter, Node.js,
+Kubernetes, pnpm, Homebrew, Rust, or their maintainers. They are style
+benchmarks for report-quality behavior only. See [docs/benchmarks.md](benchmarks.md)
+and [docs/oss-trial-runs.md](oss-trial-runs.md).
 
 ## Adding cases
 

@@ -37,7 +37,16 @@ interface ProfileSummary {
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const defaultCasesPath = path.join(repoRoot, "fixtures/evaluation-cases.json");
-const profileOrder = ["Core synthetic corpus", "Expo-style", "Flutter-style", "Node.js-style"] as const;
+const profileOrder = [
+  "Core synthetic corpus",
+  "Expo-style",
+  "Flutter-style",
+  "Node.js-style",
+  "Kubernetes-style",
+  "pnpm-style",
+  "Homebrew-style",
+  "Rust-style",
+] as const;
 
 type ProfileName = (typeof profileOrder)[number];
 
@@ -166,7 +175,7 @@ function renderBenchmarkResults(results: EvaluationResult[]): string {
     "",
     "- Benchmark profiles are synthetic style fixtures, not upstream project reports.",
     "- Do not open upstream issues based on these fixtures.",
-    "- Use the results to critique `security-intake` decisions, not Expo, Flutter, Node.js, or their maintainers.",
+    "- Use the results to critique `security-intake` decisions, not Expo, Flutter, Node.js, Kubernetes, pnpm, Homebrew, Rust, or their maintainers.",
     "- `ready_for_maintainer_review` means evidence readiness, not vulnerability truth.",
     "",
   ];
@@ -200,6 +209,10 @@ function profileFor(reportPath: string): ProfileName {
   if (reportPath.startsWith("benchmarks/expo-style/")) return "Expo-style";
   if (reportPath.startsWith("benchmarks/flutter-style/")) return "Flutter-style";
   if (reportPath.startsWith("benchmarks/nodejs-style/")) return "Node.js-style";
+  if (reportPath.startsWith("benchmarks/kubernetes-style/")) return "Kubernetes-style";
+  if (reportPath.startsWith("benchmarks/pnpm-style/")) return "pnpm-style";
+  if (reportPath.startsWith("benchmarks/homebrew-style/")) return "Homebrew-style";
+  if (reportPath.startsWith("benchmarks/rust-style/")) return "Rust-style";
   return "Core synthetic corpus";
 }
 
