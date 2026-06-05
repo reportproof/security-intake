@@ -10,6 +10,16 @@ This project should earn trust through public artifacts before becoming a bigger
 - 1+ repository tries the CLI or GitHub Action.
 - 1+ person asks for org workflow, routing, audit trail, hosted queue, or integration support.
 
+## 14-day public validation sprint
+
+Current sprint: 2026-06-05 to 2026-06-19.
+
+The sprint tracker, audience definition, public post drafts, and go/no-go
+criteria live in [docs/public-validation-sprint.md](public-validation-sprint.md).
+
+The sprint does not measure popularity. It measures whether maintainers or
+security triagers would actually use the output before replying to a report.
+
 ## What counts as useful feedback
 
 - A sanitized report that was misclassified.
@@ -73,6 +83,8 @@ Minimum gate before broad posting:
 - CI passes on `main`.
 - CodeQL passes on `main`.
 - Secret scanning has zero alerts.
+- `docs/public-validation-sprint.md` defines the current audience, non-targets,
+  post drafts, and stop/continue rules.
 - `docs/benchmark-results.md` is current.
 - `docs/oss-trial-results.md` is current.
 - `docs/public-advisory-trial.md` records the public advisory source set.
@@ -86,8 +98,12 @@ Minimum gate before broad posting:
 
 ## Next product steps
 
-1. Improve fixture coverage.
-2. Add snapshot tests for Markdown and JSON output.
-3. Add an issue or private-report template generator.
-4. Add advisory GitHub Action comments.
-5. Only then consider hosted org workflow.
+1. Run the 14-day public validation sprint.
+2. Convert concrete feedback into fixtures, wording changes, or documentation.
+3. Add snapshot tests for Markdown and JSON output if output wording becomes a
+   feedback focus.
+4. Add an issue, private-report, or `SECURITY.md` template generator if
+   maintainers ask for it.
+5. Add advisory GitHub Action comments only after users ask to run this in real
+   GitHub workflows.
+6. Only then consider hosted org workflow.

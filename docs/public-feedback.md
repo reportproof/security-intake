@@ -23,6 +23,7 @@ node dist/cli.js examples/ai-slop-report.md --no-fail
 
 Then inspect:
 
+- [Public validation sprint](public-validation-sprint.md)
 - [Maintainer evaluation guide](maintainer-evaluation.md)
 - [Output gallery](output-gallery.md)
 - [OSS triage trial results](oss-trial-results.md)
@@ -109,6 +110,10 @@ advisory-style report shapes.
 Looking for maintainers/security triagers to critique the rubric:
 https://github.com/reportproof/security-intake/blob/main/docs/public-feedback.md
 ```
+
+For the current 14-day validation sprint, use
+[docs/public-validation-sprint.md](public-validation-sprint.md). The sprint is
+focused on maintainer usefulness, not broad launch metrics.
 
 ## What happens next
 
