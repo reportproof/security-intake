@@ -91,6 +91,14 @@ Before asking maintainers for feedback:
 - compare the decisions against [maintainer-evaluation.md](maintainer-evaluation.md),
 - record any confusing rule IDs as feedback.
 
+## External Playground
+
+The report-only workflow is verified from a separate public repository:
+[reportproof/security-intake-playground](https://github.com/reportproof/security-intake-playground).
+
+Current external trial results are recorded in
+[playground-trial-results.md](playground-trial-results.md).
+
 ## Safety Notes
 
 - Do not commit private vulnerability reports to public repositories.

@@ -76,6 +76,7 @@ Minimum gate before broad posting:
 - `docs/public-feedback.md` points people to the structured issue forms.
 - `docs/maintainer-evaluation.md` gives a short external evaluation path.
 - `docs/output-gallery.md` shows ready, salvageable, and low-quality outputs.
+- `docs/playground-trial-results.md` records a current external Action trial.
 - The playground workflow passes using `reportproof/security-intake@main`.
 - At least 3 new or reviewed OSS-shaped dry runs have an understood decision.
 - Any confusing decision wording has either been fixed or documented as a known limitation.
