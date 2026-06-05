@@ -23,11 +23,11 @@ export async function runAction(
   cwd = process.cwd(),
   io: ActionIo = defaultIo
 ): Promise<ActionRunResult> {
-  const reportPath = requireInput(env, "INPUT_REPORT_PATH");
-  const configPath = optionalInput(env, "INPUT_CONFIG_PATH");
-  const format = normalizeFormat(optionalInput(env, "INPUT_FORMAT") || "markdown");
-  const outputPath = optionalInput(env, "INPUT_OUTPUT_PATH") || "security-intake-result.md";
-  const failOnLowQuality = parseBoolean(optionalInput(env, "INPUT_FAIL_ON_LOW_QUALITY") || "false");
+  const reportPath = requireActionInput(env, "report-path");
+  const configPath = optionalActionInput(env, "config-path");
+  const format = normalizeFormat(optionalActionInput(env, "format") || "markdown");
+  const outputPath = optionalActionInput(env, "output-path") || "security-intake-result.md";
+  const failOnLowQuality = parseBoolean(optionalActionInput(env, "fail-on-low-quality") || "false");
 
   const resolvedReportPath = path.resolve(cwd, reportPath);
   const resolvedOutputPath = path.resolve(cwd, outputPath);
@@ -54,15 +54,29 @@ export async function runAction(
   };
 }
 
-function requireInput(env: ActionEnv, key: string): string {
-  const value = optionalInput(env, key);
+function requireActionInput(env: ActionEnv, inputId: string): string {
+  const value = optionalActionInput(env, inputId);
   if (!value) {
-    throw new Error(`Missing required action input: ${key}`);
+    throw new Error(`Missing required action input: ${inputId}`);
   }
   return value;
 }
 
-function optionalInput(env: ActionEnv, key: string): string {
+function optionalActionInput(env: ActionEnv, inputId: string): string {
+  for (const key of inputEnvKeys(inputId)) {
+    const value = optionalEnv(env, key);
+    if (value) return value;
+  }
+
+  return "";
+}
+
+function inputEnvKeys(inputId: string): string[] {
+  const upper = inputId.toUpperCase();
+  return [`INPUT_${upper}`, `INPUT_${upper.replaceAll("-", "_")}`];
+}
+
+function optionalEnv(env: ActionEnv, key: string): string {
   const value = env[key];
   return value === undefined ? "" : String(value).trim();
 }
