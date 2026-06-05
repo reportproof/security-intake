@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a private vulnerability
+    url: https://github.com/reportproof/security-intake/security/advisories/new
+    about: Do not post exploitable private vulnerability details in public issues.

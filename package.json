@@ -7,7 +7,9 @@
     "security-intake": "./src/cli.js"
   },
   "scripts": {
-    "check": "node src/cli.js examples/ai-slop-report.md",
+    "check": "node src/cli.js examples/good-report.md",
+    "demo:bad": "node src/cli.js examples/ai-slop-report.md --no-fail",
+    "demo:json": "node src/cli.js examples/ai-slop-report.md --json --no-fail",
     "test": "node --test"
   },
   "keywords": [

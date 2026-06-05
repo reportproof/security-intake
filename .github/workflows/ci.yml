@@ -15,3 +15,13 @@ jobs:
         with:
           node-version: "20"
       - run: npm test
+      - run: npm run check
+      - run: npm run demo:bad
+      - run: node src/cli.js examples/ai-slop-report.md --json --no-fail
+      - name: Composite action smoke test
+        uses: ./
+        with:
+          report-path: examples/ai-slop-report.md
+          config-path: .security-intake.yml
+          format: markdown
+          fail-on-low-quality: "false"

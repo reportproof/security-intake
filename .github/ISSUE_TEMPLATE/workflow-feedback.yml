@@ -1,0 +1,41 @@
+name: Workflow feedback
+description: Tell us how this could fit or fail in a maintainer/security workflow.
+title: "[workflow] "
+labels:
+  - feedback
+  - workflow
+body:
+  - type: dropdown
+    id: role
+    attributes:
+      label: Your role
+      options:
+        - open-source maintainer
+        - commercial OSS maintainer
+        - AppSec/product security
+        - bug bounty or VDP triage
+        - security researcher
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Current workflow
+      description: How do reports arrive and get triaged today?
+    validations:
+      required: true
+  - type: textarea
+    id: useful
+    attributes:
+      label: Where this could help
+      description: Be specific about the step, queue, or maintainer action.
+    validations:
+      required: true
+  - type: textarea
+    id: risk
+    attributes:
+      label: Where this could be annoying or unsafe
+      description: What would make you reject this workflow?
+    validations:
+      required: true
