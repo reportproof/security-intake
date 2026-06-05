@@ -1,0 +1,73 @@
+name: Integration request
+description: Tell us where security-intake should plug into your repo, org, or triage workflow.
+title: "[integration] "
+labels:
+  - feedback
+  - integration
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form if you would consider trying `security-intake` in a real repository, organization, VDP, bug bounty, or maintainer workflow.
+
+        Do not include private vulnerability details, secrets, customer data, or active exploit material.
+  - type: dropdown
+    id: integration-type
+    attributes:
+      label: Integration type
+      options:
+        - GitHub Action
+        - CLI in local triage
+        - CLI in CI
+        - issue or advisory template
+        - maintainer response generator
+        - hosted queue or dashboard
+        - API or webhook
+        - other
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - public OSS repository
+        - commercial open-source repository
+        - private repository
+        - security program or VDP
+        - bug bounty triage
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use case
+      description: Where would this run, and who would read the output?
+    validations:
+      required: true
+  - type: textarea
+    id: required-output
+    attributes:
+      label: Required output or controls
+      description: What fields, formats, thresholds, routing, labels, or comments would make this usable?
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints
+      description: Include safety, privacy, compliance, hosted-vs-local, or approval constraints.
+    validations:
+      required: true
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency
+      options:
+        - evaluating now
+        - would try within 30 days
+        - interesting but not urgent
+        - researching only
+    validations:
+      required: true

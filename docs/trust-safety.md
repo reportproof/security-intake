@@ -40,6 +40,9 @@ prove bad intent.
 
 ## Feedback standard
 
+Start with [public-feedback.md](public-feedback.md) when sharing public examples
+or maintainer workflow critique.
+
 Useful feedback includes:
 
 - a sanitized report that receives the wrong decision,

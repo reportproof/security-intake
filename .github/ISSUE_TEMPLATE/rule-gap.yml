@@ -5,11 +5,25 @@ labels:
   - feedback
   - rule-gap
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form when the issue is about a specific rule, threshold, or missing evidence field. Use sanitized or synthetic examples only.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: The example is synthetic or safely redacted.
+          required: true
+        - label: This issue does not include private vulnerability details, secrets, customer data, or active exploit instructions.
+          required: true
   - type: input
     id: rule-id
     attributes:
       label: Rule ID
-      description: Example RP003_REPRODUCTION_STEPS. Use "new rule" if this is missing.
+      description: Example `RP003_REPRODUCTION_STEPS`. Use `new rule` if this evidence field is missing.
+      placeholder: RP003_REPRODUCTION_STEPS
     validations:
       required: true
   - type: dropdown
@@ -23,13 +37,27 @@ body:
         - too lenient
         - missing rule
         - unclear output
+        - scoring or threshold issue
+    validations:
+      required: true
+  - type: dropdown
+    id: desired-decision
+    attributes:
+      label: Desired decision impact
+      description: What decision should change, if any?
+      options:
+        - ready_for_maintainer_review
+        - needs_more_evidence
+        - likely_low_quality_or_ai_generated
+        - no decision change, only wording
+        - unsure
     validations:
       required: true
   - type: textarea
     id: example
     attributes:
       label: Sanitized example
-      description: Provide a redacted or synthetic report snippet.
+      description: Provide a redacted or synthetic report snippet that demonstrates the rule gap.
       render: markdown
     validations:
       required: true
@@ -37,6 +65,13 @@ body:
     id: expected
     attributes:
       label: Expected behavior
-      description: What should the tool do instead?
+      description: What should the rule, score, missing evidence, or suggested response do instead?
     validations:
       required: true
+  - type: textarea
+    id: maintainer-context
+    attributes:
+      label: Maintainer context
+      description: What workflow or project type makes this rule behavior important?
+    validations:
+      required: false
