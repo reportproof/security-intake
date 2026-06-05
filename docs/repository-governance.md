@@ -41,6 +41,22 @@ The current rule is intentional: contributors get a normal protected-branch
 workflow, while the maintainer can still recover the repository if automation,
 required checks, or release wiring breaks.
 
+## Direct-To-Main Policy
+
+Routine changes should go through pull requests, even for the maintainer. This
+keeps review history, required checks, and branch-protection behavior visible to
+the public.
+
+Administrator bypass is reserved for exceptional cases:
+
+- required checks are broken because of workflow or GitHub platform failure,
+- release or action metadata needs urgent repair,
+- a security-sensitive public documentation mistake needs immediate correction,
+- repository recovery is blocked by a rule configuration mistake.
+
+When admin bypass is used, the follow-up commit or issue should explain why a
+normal pull request could not be used.
+
 ## PR Expectations
 
 Every meaningful pull request should explain:
@@ -70,3 +86,19 @@ in this order:
 
 Do not enable these before there is another active maintainer who can review and
 recover blocked pull requests.
+
+## Current Scorecard Tradeoffs
+
+OpenSSF Scorecard may continue to report these governance and maturity warnings
+while the project is a young solo-maintainer repository:
+
+- `CodeReviewID`: improves only after pull requests have approved reviews from
+  someone other than the author.
+- `BranchProtectionID`: remains partial while administrator bypass, one-review
+  approval, non-enforced CODEOWNERS, and non-required last-push approval are
+  intentional solo-maintainer tradeoffs.
+- `MaintainedID`: improves with repository age and sustained activity.
+- `FuzzingID`: deferred until the parsing and configuration surface justifies a
+  fuzzing harness.
+- `CIIBestPracticesID`: tracked in
+  [openssf-best-practices.md](openssf-best-practices.md).

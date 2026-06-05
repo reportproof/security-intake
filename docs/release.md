@@ -12,12 +12,15 @@ This repo is release-ready when the checks below pass.
 - `npm run pack:dry-run`
 - GitHub Actions CI passes on `main`.
 - CodeQL completes or has an understood, documented setup issue.
+- OpenSSF Scorecard completes or any remaining warnings are documented in
+  `docs/repository-governance.md`.
 - README quick start works from a fresh clone.
 - `docs/rubric.md` matches the rule IDs in `src/rules.ts`.
 - `docs/evaluation.md` matches `fixtures/evaluation-cases.json`.
 - `docs/benchmarks.md` matches the public OSS style benchmark profiles under `benchmarks/`.
 - `docs/benchmark-results.md` is current; verify with `npm run check:benchmark-results`.
 - `docs/trust-safety.md` still reflects the actual runtime behavior.
+- `docs/openssf-best-practices.md` reflects the current badge status.
 - `npm run build` creates committed `dist/` runtime files for the CLI and GitHub Action.
 - `action.yml` uses `runs.using: node24`; do not release Node 20-based Action metadata.
 - `CHANGELOG.md` has an entry for the release.
