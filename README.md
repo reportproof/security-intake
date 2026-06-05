@@ -14,6 +14,18 @@ Maintainers are being asked to spend time on reports that look plausible but lac
 
 See [docs/problem.md](docs/problem.md) for the public evidence behind the problem.
 
+## Who this is for
+
+`security-intake` is aimed at OSS maintainers and small teams that receive
+security reports but do not have managed triage. It is useful when reports
+arrive through `SECURITY.md`, email, GitHub private vulnerability reporting, or
+manual issue workflows and the first question is whether the reporter included
+enough evidence.
+
+It is not aimed at mature teams that already use HackerOne, Bugcrowd, or a
+custom PSIRT workflow for full validation. It does not assign severity, decide
+bounties, publish CVEs, or prove vulnerability truth.
+
 ## Quick start
 
 ```bash
@@ -210,6 +222,7 @@ The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS s
 - Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - Support scope: [SUPPORT.md](SUPPORT.md)
 - Public feedback guide: [docs/public-feedback.md](docs/public-feedback.md)
+- Public validation sprint: [docs/public-validation-sprint.md](docs/public-validation-sprint.md)
 - Maintainer evaluation guide: [docs/maintainer-evaluation.md](docs/maintainer-evaluation.md)
 - Output gallery: [docs/output-gallery.md](docs/output-gallery.md)
 - GitHub Action evaluation: [docs/github-action-evaluation.md](docs/github-action-evaluation.md)
