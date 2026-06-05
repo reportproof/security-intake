@@ -124,6 +124,85 @@ function renderBenchmarkResults(results) {
     ];
     return `${lines.join("\n")}\n`;
 }
+function renderOssTrialResults(results) {
+    const ossResults = results.filter(isOssStyleResult);
+    if (ossResults.length === 0) {
+        throw new Error("OSS trial report has no OSS-style cases.");
+    }
+    const passed = ossResults.filter((result) => result.failures.length === 0).length;
+    const failed = ossResults.length - passed;
+    const summaries = summarizeByProfile(ossResults).filter((summary) => summary.cases > 0);
+    const ready = ossResults.filter((result) => result.analysis.decision === "ready_for_maintainer_review").length;
+    const needsEvidence = ossResults.filter((result) => result.analysis.decision === "needs_more_evidence").length;
+    const lowQuality = ossResults.filter((result) => result.analysis.decision === "likely_low_quality_or_ai_generated").length;
+    const lines = [
+        "# OSS Triage Trial Results",
+        "",
+        "Generated from `fixtures/evaluation-cases.json` by `npm run oss-trial:results`.",
+        "",
+        "This is the focused pre-outreach trial set for real-world-style maintainer workflows. The cases are synthetic `*-style` fixtures, not copied upstream reports, and they test report-quality classification only.",
+        "",
+        "## Summary",
+        "",
+        `- Cases: ${ossResults.length}`,
+        `- Passed: ${passed}`,
+        `- Failed: ${failed}`,
+        `- Ready for maintainer review: ${ready}`,
+        `- Needs more evidence: ${needsEvidence}`,
+        `- Likely low quality / AI-generated: ${lowQuality}`,
+        "",
+        "## What This Tests",
+        "",
+        "- Evidence-complete reports should reach a human maintainer instead of being blocked by automation.",
+        "- Salvageable reports should get a specific evidence request instead of being dismissed as junk.",
+        "- Generic scanner dumps and untested AI-style claims should be routed away from direct maintainer triage.",
+        "- Policy-boundary cases should remain evidence decisions; the tool should not decide final project scope or vulnerability truth.",
+        "",
+        "## Profile Summary",
+        "",
+        "| Profile | Cases | Ready | Needs evidence | Low quality |",
+        "| --- | ---: | ---: | ---: | ---: |",
+        ...summaries.map((summary) => tableRow([
+            tableValue(summary.profile),
+            String(summary.cases),
+            String(summary.ready),
+            String(summary.needsEvidence),
+            String(summary.lowQuality),
+        ])),
+        "",
+        "## Cases",
+        "",
+        "| Profile | Case | Manual expectation | Actual | Score | Result | Triage value |",
+        "| --- | --- | --- | --- | ---: | --- | --- |",
+        ...ossResults.map((result) => tableRow([
+            tableValue(profileFor(result.case.reportPath)),
+            formatCaseLink(result.case),
+            tableValue(decisionLabel(result.case.expectedDecision)),
+            tableValue(decisionLabel(result.analysis.decision)),
+            String(result.analysis.score),
+            result.failures.length === 0 ? "Pass" : tableValue(`Fail: ${result.failures.join("; ")}`),
+            tableValue(result.case.protects),
+        ])),
+        "",
+        "## How To Reproduce",
+        "",
+        "```bash",
+        "npm run oss-trial:results",
+        "npm run check:oss-trial-results",
+        "node dist/cli.js benchmarks/expo-style/vague-ai-mobile-claim.md --no-fail",
+        "node dist/cli.js benchmarks/nodejs-style/complete-http-parser-dos.md --no-fail",
+        "```",
+        "",
+        "## What This Does Not Prove",
+        "",
+        "- It does not prove any upstream project is vulnerable.",
+        "- It does not validate exploitability or patch correctness.",
+        "- It does not replace maintainer judgment, security policy, or project scope decisions.",
+        "- It does not prove private reports will classify perfectly; real maintainer feedback is still required.",
+        "",
+    ];
+    return `${lines.join("\n")}\n`;
+}
 function summarizeByProfile(results) {
     const summaries = new Map();
     for (const profile of profileOrder) {
@@ -162,6 +241,19 @@ function profileFor(reportPath) {
         return "Rust-style";
     return "Core synthetic corpus";
 }
+function isOssStyleResult(result) {
+    return profileFor(result.case.reportPath) !== "Core synthetic corpus";
+}
+function renderReport(results, report) {
+    if (report === "oss-trial")
+        return renderOssTrialResults(results);
+    return renderBenchmarkResults(results);
+}
+function resultsForReport(results, report) {
+    if (report === "oss-trial")
+        return results.filter(isOssStyleResult);
+    return results;
+}
 function decisionLabel(decision) {
     if (decision === "ready_for_maintainer_review")
         return "Ready for maintainer review";
@@ -179,9 +271,12 @@ function tableValue(value) {
     return value.replaceAll("|", "\\|").replace(/\r?\n/g, " ");
 }
 function parseArgs(args) {
-    const options = { casesPath: defaultCasesPath };
+    const options = { casesPath: defaultCasesPath, report: "benchmark" };
     for (let index = 0; index < args.length; index += 1) {
         const arg = args[index];
+        if (!arg) {
+            continue;
+        }
         if (arg === "--cases") {
             const value = readOptionValue(args, index, arg);
             options.casesPath = path.resolve(process.cwd(), value);
@@ -197,6 +292,14 @@ function parseArgs(args) {
             options.checkOutputPath = path.resolve(process.cwd(), value);
             index += 1;
         }
+        else if (arg === "--report") {
+            const value = readOptionValue(args, index, arg);
+            options.report = parseReport(value);
+            index += 1;
+        }
+        else if (arg.startsWith("--report=")) {
+            options.report = parseReport(arg.slice("--report=".length));
+        }
         else {
             throw new Error(`Unknown option: ${String(arg)}`);
         }
@@ -205,6 +308,11 @@ function parseArgs(args) {
         throw new Error("Use either --output or --check-output, not both.");
     }
     return options;
+}
+function parseReport(value) {
+    if (value === "benchmark" || value === "oss-trial")
+        return value;
+    throw new Error(`Unsupported report: ${value}. Use benchmark or oss-trial.`);
 }
 function readOptionValue(args, index, optionName) {
     const value = args[index + 1];
@@ -216,14 +324,15 @@ function readOptionValue(args, index, optionName) {
 async function main() {
     const options = parseArgs(process.argv.slice(2));
     const results = await runEvaluation(options.casesPath);
-    const hasFailures = results.some((result) => result.failures.length > 0);
+    const reportResults = resultsForReport(results, options.report);
+    const hasFailures = reportResults.some((result) => result.failures.length > 0);
     if (options.outputPath) {
         await fs.mkdir(path.dirname(options.outputPath), { recursive: true });
-        await fs.writeFile(options.outputPath, renderBenchmarkResults(results));
+        await fs.writeFile(options.outputPath, renderReport(results, options.report));
         process.stdout.write(`Wrote ${path.relative(repoRoot, options.outputPath)}\n`);
     }
     else if (options.checkOutputPath) {
-        const expectedOutput = renderBenchmarkResults(results);
+        const expectedOutput = renderReport(results, options.report);
         let existingOutput = "";
         try {
             existingOutput = await fs.readFile(options.checkOutputPath, "utf8");
@@ -241,7 +350,7 @@ async function main() {
         process.stdout.write(`${path.relative(repoRoot, options.checkOutputPath)} is up to date.\n`);
     }
     else {
-        process.stdout.write(render(results));
+        process.stdout.write(render(reportResults));
     }
     if (hasFailures) {
         process.exitCode = 1;
