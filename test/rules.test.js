@@ -75,10 +75,10 @@ test("action runner writes result file and GitHub outputs", async () => {
   const writes = [];
   const action = await runAction(
     {
-      INPUT_REPORT_PATH: reportPath,
+      "INPUT_REPORT-PATH": reportPath,
       INPUT_FORMAT: "json",
-      INPUT_OUTPUT_PATH: outputPath,
-      INPUT_FAIL_ON_LOW_QUALITY: "false",
+      "INPUT_OUTPUT-PATH": outputPath,
+      "INPUT_FAIL-ON-LOW-QUALITY": "false",
       GITHUB_OUTPUT: githubOutput,
     },
     tempDir,
