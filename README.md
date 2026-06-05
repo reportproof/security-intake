@@ -21,6 +21,27 @@ node dist/cli.js examples/ai-slop-report.md --no-fail
 
 Requires Node.js 24 or newer.
 
+## Try It In 5 Minutes
+
+Use this path if you are validating whether the tool is worth trying on your own maintainer workflow:
+
+```bash
+git clone https://github.com/reportproof/security-intake.git
+cd security-intake
+npm install
+npm run eval
+node dist/cli.js examples/good-report.md
+node dist/cli.js examples/ai-slop-report.md --no-fail
+```
+
+Then compare the decisions against the examples:
+
+- `examples/good-report.md` should be `ready_for_maintainer_review`.
+- `examples/ai-slop-report.md` should be `likely_low_quality_or_ai_generated`.
+- Current benchmark results are published in [docs/benchmark-results.md](docs/benchmark-results.md).
+
+If the output is wrong for your project, comment on [Feedback wanted: security-intake public validation](https://github.com/reportproof/security-intake/issues/3) or open a structured feedback issue. Use sanitized or synthetic examples only.
+
 Run against any Markdown report:
 
 ```bash
@@ -158,9 +179,9 @@ This is an early validation repo. Useful feedback is specific:
 - A missing field that maintainers need before triage.
 - A workflow where this could save time without annoying legitimate researchers.
 
-Open a feedback issue with a sanitized example. Do not post private vulnerabilities publicly.
+Start with the pinned validation issue: [Feedback wanted: security-intake public validation](https://github.com/reportproof/security-intake/issues/3). For structured examples, open a sanitized-report, rule-gap, or workflow-feedback issue. Do not post private vulnerabilities publicly.
 
-The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS style benchmarks live in [benchmarks/](benchmarks/). Both are documented in [docs/evaluation.md](docs/evaluation.md), [docs/benchmarks.md](docs/benchmarks.md), and the current generated results in [docs/benchmark-results.md](docs/benchmark-results.md). Run `npm run eval` before changing the rubric. Trust and safety guidance is in [docs/trust-safety.md](docs/trust-safety.md).
+The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS style benchmarks live in [benchmarks/](benchmarks/). Both are documented in [docs/evaluation.md](docs/evaluation.md), [docs/benchmarks.md](docs/benchmarks.md), and the current generated results in [docs/benchmark-results.md](docs/benchmark-results.md). Run `npm run eval` before changing the rubric. The pre-public OSS trial plan is in [docs/validation-plan.md](docs/validation-plan.md). Trust and safety guidance is in [docs/trust-safety.md](docs/trust-safety.md).
 
 ## Project operations
 

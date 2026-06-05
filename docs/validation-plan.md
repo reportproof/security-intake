@@ -25,6 +25,47 @@ This project should earn trust through public artifacts before becoming a bigger
 - Generic "cool project" comments.
 - Interest in a SaaS dashboard before the local workflow proves value.
 
+## Pre-public OSS trial gate
+
+Do not start broad social distribution until the project passes this smaller
+trial loop. The goal is to prove that the tool behavior is understandable before
+asking strangers for feedback.
+
+1. Keep the pinned validation issue open:
+   [Feedback wanted: security-intake public validation](https://github.com/reportproof/security-intake/issues/3).
+2. Run the local validation path from the README on a fresh clone.
+3. Run `npm run eval` and `npm run check:benchmark-results`.
+4. Review [docs/benchmark-results.md](benchmark-results.md) and confirm the
+   result does not read like a claim about real upstream vulnerabilities.
+5. Pick 3 to 5 mature OSS project shapes, such as mobile tooling, framework SDK,
+   runtime, package manager, or developer infrastructure.
+6. Create only synthetic or sanitized Markdown reports for those shapes.
+7. Run `node dist/cli.js <report.md> --no-fail` on each report.
+8. Record whether the output is:
+   - correct enough to share publicly,
+   - confusing but fixable with wording,
+   - wrong enough to become a fixture or rule change.
+9. Convert every useful failure into a fixture in `fixtures/` or `benchmarks/`.
+10. Only then draft public posts for X, Reddit, Product Hunt, or Hacker News.
+
+Safety rules:
+
+- Do not scan upstream projects.
+- Do not open upstream security issues.
+- Do not use real exploit details, secrets, customer data, or active zero-day material.
+- Do not say an upstream project is vulnerable because a synthetic report passed
+  `ready_for_maintainer_review`.
+- Treat this as report-quality validation, not vulnerability validation.
+
+Minimum gate before broad posting:
+
+- CI passes on `main`.
+- CodeQL passes on `main`.
+- Secret scanning has zero alerts.
+- `docs/benchmark-results.md` is current.
+- At least 3 new or reviewed OSS-shaped dry runs have an understood decision.
+- Any confusing decision wording has either been fixed or documented as a known limitation.
+
 ## Next product steps
 
 1. Improve fixture coverage.
