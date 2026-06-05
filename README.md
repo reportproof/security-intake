@@ -1,5 +1,9 @@
 # security-intake
 
+[![CI](https://github.com/reportproof/security-intake/actions/workflows/ci.yml/badge.svg)](https://github.com/reportproof/security-intake/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/reportproof/security-intake/actions/workflows/codeql.yml/badge.svg)](https://github.com/reportproof/security-intake/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/reportproof/security-intake/badge)](https://scorecard.dev/viewer/?uri=github.com/reportproof/security-intake)
+
 Evidence checks for security reports before maintainers triage them.
 
 `security-intake` is an open-source CLI and GitHub Action that reviews incoming vulnerability reports, scanner dumps, and AI-generated security submissions for report quality. It does **not** decide whether a vulnerability is real. It checks whether the report has enough evidence to be worth human triage.
