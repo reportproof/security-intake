@@ -26,28 +26,12 @@ inputs:
 outputs:
   decision:
     description: Intake decision for the report.
-    value: ${{ steps.security-intake.outputs.decision }}
   score:
     description: Intake score from 0 to 100.
-    value: ${{ steps.security-intake.outputs.score }}
   exit-code:
     description: CLI-style exit code for the decision.
-    value: ${{ steps.security-intake.outputs.exit-code }}
   result-path:
     description: Path to the written result file.
-    value: ${{ steps.security-intake.outputs.result-path }}
 runs:
-  using: composite
-  steps:
-    - name: Run security intake check
-      id: security-intake
-      shell: bash
-      env:
-        INPUT_REPORT_PATH: ${{ inputs.report-path }}
-        INPUT_CONFIG_PATH: ${{ inputs.config-path }}
-        INPUT_FORMAT: ${{ inputs.format }}
-        INPUT_OUTPUT_PATH: ${{ inputs.output-path }}
-        INPUT_FAIL_ON_LOW_QUALITY: ${{ inputs.fail-on-low-quality }}
-      run: |
-        set -euo pipefail
-        node "$GITHUB_ACTION_PATH/src/action.js"
+  using: node24
+  main: dist/action.js

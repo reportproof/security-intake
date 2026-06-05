@@ -10,16 +10,18 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: "20"
+          node-version: "24"
+      - run: npm ci
+      - run: npm run build
       - run: npm run check:syntax
       - run: npm test
       - run: npm run check
       - run: npm run demo:bad
-      - run: node src/cli.js examples/ai-slop-report.md --json --no-fail
-      - name: Composite action smoke test
+      - run: node dist/cli.js examples/ai-slop-report.md --json --no-fail
+      - name: JavaScript action smoke test
         id: intake
         uses: ./
         with:

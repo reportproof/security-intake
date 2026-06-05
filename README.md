@@ -15,16 +15,18 @@ See [docs/problem.md](docs/problem.md) for the public evidence behind the proble
 ```bash
 npm install
 npm test
-node src/cli.js examples/ai-slop-report.md --no-fail
+node dist/cli.js examples/ai-slop-report.md --no-fail
 ```
+
+Requires Node.js 24 or newer.
 
 Run against any Markdown report:
 
 ```bash
-node src/cli.js examples/good-report.md
-node src/cli.js examples/ai-slop-report.md --json --no-fail
-node src/cli.js examples/scanner-dump.md --config .security-intake.yml --no-fail
-node src/cli.js examples/ai-slop-report.md --output security-intake-result.md --no-fail
+node dist/cli.js examples/good-report.md
+node dist/cli.js examples/ai-slop-report.md --json --no-fail
+node dist/cli.js examples/scanner-dump.md --config .security-intake.yml --no-fail
+node dist/cli.js examples/ai-slop-report.md --output security-intake-result.md --no-fail
 ```
 
 ## Example output
@@ -57,7 +59,7 @@ Use `--no-fail` when you want a report without failing a script or GitHub Action
 
 ## GitHub Action
 
-This repository can be used as a composite GitHub Action.
+This repository can be used as a Node.js 24 GitHub Action.
 
 ```yaml
 name: Security intake check
@@ -69,7 +71,7 @@ jobs:
   intake:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: reportproof/security-intake@main
         id: intake
         with:
@@ -134,6 +136,7 @@ See [docs/rubric.md](docs/rubric.md).
 - JSON output for integrations.
 - Configurable thresholds and disabled rules.
 - GitHub Action wrapper.
+- TypeScript source compiled to plain Node.js for the CLI and Action.
 
 ## Not in scope yet
 

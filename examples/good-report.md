@@ -10,7 +10,7 @@ Endpoint `/api/session/refresh` in `src/server/session.ts`.
 
 ## Environment
 
-Node 20, macOS 15.5, local Docker Postgres.
+Node 24, macOS 15.5, local Docker Postgres.
 
 ## Reproduction steps
 

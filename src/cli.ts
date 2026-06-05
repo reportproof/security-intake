@@ -4,6 +4,15 @@ import path from "node:path";
 import { loadConfig } from "./config.js";
 import { analyzeReport, EXIT_CODES, toMarkdown } from "./rules.js";
 
+interface CliOptions {
+  configPath: string | null;
+  filePath: string | null;
+  help: boolean;
+  json: boolean;
+  noFail: boolean;
+  outputPath: string | null;
+}
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
 
@@ -35,8 +44,8 @@ async function main() {
   }
 }
 
-function parseArgs(args) {
-  const options = {
+function parseArgs(args: string[]): CliOptions {
+  const options: CliOptions = {
     configPath: null,
     filePath: null,
     help: false,
@@ -47,6 +56,9 @@ function parseArgs(args) {
 
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
+    if (arg === undefined) {
+      continue;
+    }
 
     if (arg === "--help" || arg === "-h") {
       options.help = true;
@@ -74,7 +86,7 @@ function parseArgs(args) {
   return options;
 }
 
-function readOptionValue(args, index, optionName) {
+function readOptionValue(args: string[], index: number, optionName: string): string {
   const value = args[index + 1];
   if (!value || value.startsWith("-")) {
     throw new Error(`${optionName} requires a value.`);

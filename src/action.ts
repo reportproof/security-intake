@@ -3,9 +3,26 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadConfig } from "./config.js";
-import { analyzeReport, toMarkdown } from "./rules.js";
+import { analyzeReport, type AnalysisResult, toMarkdown } from "./rules.js";
 
-export async function runAction(env = process.env, cwd = process.cwd(), io = defaultIo) {
+type ActionEnv = NodeJS.ProcessEnv;
+type OutputFormat = "markdown" | "json";
+
+interface ActionIo {
+  write(text: string): void;
+}
+
+interface ActionRunResult {
+  result: AnalysisResult;
+  outputPath: string;
+  processExitCode: number;
+}
+
+export async function runAction(
+  env: ActionEnv = process.env,
+  cwd = process.cwd(),
+  io: ActionIo = defaultIo
+): Promise<ActionRunResult> {
   const reportPath = requireInput(env, "INPUT_REPORT_PATH");
   const configPath = optionalInput(env, "INPUT_CONFIG_PATH");
   const format = normalizeFormat(optionalInput(env, "INPUT_FORMAT") || "markdown");
@@ -37,7 +54,7 @@ export async function runAction(env = process.env, cwd = process.cwd(), io = def
   };
 }
 
-function requireInput(env, key) {
+function requireInput(env: ActionEnv, key: string): string {
   const value = optionalInput(env, key);
   if (!value) {
     throw new Error(`Missing required action input: ${key}`);
@@ -45,23 +62,23 @@ function requireInput(env, key) {
   return value;
 }
 
-function optionalInput(env, key) {
+function optionalInput(env: ActionEnv, key: string): string {
   const value = env[key];
   return value === undefined ? "" : String(value).trim();
 }
 
-function normalizeFormat(value) {
+function normalizeFormat(value: string): OutputFormat {
   if (value === "markdown" || value === "json") return value;
   throw new Error(`Unsupported format: ${value}. Use markdown or json.`);
 }
 
-function parseBoolean(value) {
+function parseBoolean(value: string): boolean {
   if (value === "true") return true;
   if (value === "false") return false;
   throw new Error(`Boolean input must be true or false, received: ${value}`);
 }
 
-async function writeOutputs(outputFile, outputs) {
+async function writeOutputs(outputFile: string | undefined, outputs: Record<string, string>): Promise<void> {
   if (!outputFile) return;
 
   const lines = Object.entries(outputs).map(([key, value]) => `${key}=${value}`);
@@ -69,7 +86,7 @@ async function writeOutputs(outputFile, outputs) {
 }
 
 const defaultIo = {
-  write(text) {
+  write(text: string) {
     process.stdout.write(text);
   },
 };
