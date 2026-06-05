@@ -15,6 +15,7 @@ This repo is release-ready when the checks below pass.
 - README quick start works from a fresh clone.
 - `docs/rubric.md` matches the rule IDs in `src/rules.ts`.
 - `docs/evaluation.md` matches `fixtures/evaluation-cases.json`.
+- `docs/benchmarks.md` matches the public OSS style benchmark profiles under `benchmarks/`.
 - `docs/trust-safety.md` still reflects the actual runtime behavior.
 - `npm run build` creates committed `dist/` runtime files for the CLI and GitHub Action.
 - `action.yml` uses `runs.using: node24`; do not release Node 20-based Action metadata.

@@ -92,7 +92,7 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     patterns: [/\bversion\b/i, /\bcommit\b/i, /\bsha\b/i, /\brelease\b/i, /\btag\b/i],
     negativePatterns: [
       /\b(no|missing|without)\b.{0,100}\b(version|commit|sha|release|tag)\b/i,
-      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have)\b.{0,120}\b(version|commit|sha|release|tag)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have|know|identify|confirm)\b.{0,120}\b(version|commit|sha|release|tag)\b/i,
     ],
   },
   {
@@ -105,7 +105,7 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     patterns: [/\bcomponent\b/i, /\bendpoint\b/i, /\broute\b/i, /\bpackage\b/i, /\bfile\b/i, /\bmodule\b/i],
     negativePatterns: [
       /\b(no|missing|without)\b.{0,100}\b(component|endpoint|route|package|file|module)\b/i,
-      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have)\b.{0,120}\b(component|endpoint|route|package|file|module)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have|know|identify|confirm)\b.{0,120}\b(component|endpoint|route|package|file|module)\b/i,
     ],
   },
   {
@@ -118,7 +118,7 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     patterns: [/\brepro/i, /\breproduce/i, /\bsteps?\b/i, /\bcommand\b/i, /\brequest\b/i, /\bcurl\b/i],
     negativePatterns: [
       /\b(no|missing|without)\b.{0,100}\b(repro|reproduce|steps?|command|request|curl)\b/i,
-      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have)\b.{0,120}\b(repro|reproduce|steps?|command|request|curl)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have|know|identify|confirm)\b.{0,120}\b(repro|reproduce|steps?|command|request|curl)\b/i,
     ],
   },
   {
@@ -131,7 +131,7 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     patterns: [/\bobserved\b/i, /\bactual\b/i, /\bresult\b/i, /\bresponse\b/i, /\berror\b/i, /\blog\b/i],
     negativePatterns: [
       /\b(no|missing|without)\b.{0,100}\b(observed result|actual result|response|error log|log)\b/i,
-      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have)\b.{0,120}\b(observed result|actual result|response|error log|log)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have|know|identify|confirm)\b.{0,120}\b(observed result|actual result|response|error log|log)\b/i,
     ],
   },
   {
@@ -144,7 +144,7 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     patterns: [/\bimpact\b/i, /\battacker\b/i, /\bexploit/i, /\bprivilege\b/i, /\baccess\b/i, /\bdata\b/i, /\baccount\b/i],
     negativePatterns: [
       /\b(no|missing|without)\b.{0,120}\b(security impact|impact|attacker|exploit|privilege|access|data|account)\b/i,
-      /\b(cannot|can't|unable to|do not|don't|not)\b.{0,120}\b(provide|share|verify|determin\w*|have)\b.{0,120}\b(security impact|impact|attacker|exploit|privilege|access|data|account)\b/i,
+      /\b(cannot|can't|unable to|do not|don't|not)\b.{0,120}\b(provide|share|verify|determin\w*|have|know|identify|confirm)\b.{0,120}\b(security impact|impact|attacker|exploit|privilege|access|data|account)\b/i,
     ],
   },
   {
@@ -154,10 +154,20 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     weight: 14,
     severity: "high",
     why: "Evidence such as a PoC, log, trace, payload, screenshot, or failing test makes the report independently checkable.",
-    patterns: [/\bpoc\b/i, /\bproof\b/i, /\bscreenshot\b/i, /\blog\b/i, /\btrace\b/i, /\bfailing test\b/i, /\bregression test\b/i, /\bpayload\b/i],
+    patterns: [
+      /\bpoc\b/i,
+      /\bproof\b/i,
+      /\bscreenshot\b/i,
+      /\b(attached|following|below|recorded|produced|shows?|includes?)\b.{0,50}\blogs?\b/i,
+      /\blogs?\b.{0,50}\b(shows?|showed|recorded|produced|includes?)\b/i,
+      /\btrace\b/i,
+      /\bfailing test\b/i,
+      /\bregression test\b/i,
+      /\bpayload\b/i,
+    ],
     negativePatterns: [
       /\b(no|missing|without)\b.{0,120}\b(poc|proof|screenshot|log|trace|failing test|regression test|payload)\b/i,
-      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have)\b.{0,120}\b(poc|proof|screenshot|log|trace|failing test|regression test|payload)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have|know|identify|confirm)\b.{0,120}\b(poc|proof|screenshot|log|trace|failing test|regression test|payload)\b/i,
     ],
   },
   {
@@ -170,7 +180,7 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     patterns: [/\benvironment\b/i, /\bos\b/i, /\bbrowser\b/i, /\bnode\b/i, /\bpython\b/i, /\bdocker\b/i],
     negativePatterns: [
       /\b(no|missing|without)\b.{0,100}\b(environment|os|browser|node|python|docker)\b/i,
-      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have)\b.{0,120}\b(environment|os|browser|node|python|docker)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have|know|identify|confirm)\b.{0,120}\b(environment|os|browser|node|python|docker)\b/i,
     ],
   },
 ];
