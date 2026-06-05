@@ -1,0 +1,6 @@
+# Default code ownership for security-intake.
+#
+# CODEOWNERS documents review responsibility. Code owner review is not enforced
+# while this is a solo-maintainer validation repo, because that can make routine
+# maintenance harder without adding independent review.
+* @mvincentong
