@@ -1,7 +1,21 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-export const DEFAULT_CONFIG = Object.freeze({
+export interface SecurityIntakeConfig {
+  minReadyScore?: number;
+  maxMissingForReady?: number;
+  lowQualitySignalsForLikely?: number;
+  missingForLikelyLowQuality?: number;
+  penaltyPerLowQualitySignal?: number;
+  maxPenalty?: number;
+  disabledRules?: string[];
+}
+
+type RawConfig = Record<string, unknown>;
+type NumericConfigKey = Exclude<keyof SecurityIntakeConfig, "disabledRules">;
+type ResolvedSecurityIntakeConfig = Required<SecurityIntakeConfig>;
+
+export const DEFAULT_CONFIG: ResolvedSecurityIntakeConfig = Object.freeze({
   minReadyScore: 70,
   maxMissingForReady: 2,
   lowQualitySignalsForLikely: 3,
@@ -13,7 +27,10 @@ export const DEFAULT_CONFIG = Object.freeze({
 
 const DEFAULT_CONFIG_FILES = [".security-intake.json", ".security-intake.yml", ".security-intake.yaml"];
 
-export async function loadConfig(configPath, cwd = process.cwd()) {
+export async function loadConfig(
+  configPath: string | null = null,
+  cwd = process.cwd()
+): Promise<ResolvedSecurityIntakeConfig> {
   const resolvedPath = configPath ? path.resolve(cwd, configPath) : await findDefaultConfig(cwd);
   if (!resolvedPath) return { ...DEFAULT_CONFIG };
 
@@ -22,7 +39,7 @@ export async function loadConfig(configPath, cwd = process.cwd()) {
   return normalizeConfig(parsed);
 }
 
-async function findDefaultConfig(cwd) {
+async function findDefaultConfig(cwd: string): Promise<string | null> {
   for (const fileName of DEFAULT_CONFIG_FILES) {
     const candidate = path.join(cwd, fileName);
     try {
@@ -36,16 +53,16 @@ async function findDefaultConfig(cwd) {
   return null;
 }
 
-function parseConfig(raw, filePath) {
+function parseConfig(raw: string, filePath: string): RawConfig {
   if (filePath.endsWith(".json")) {
-    return JSON.parse(raw);
+    return JSON.parse(raw) as RawConfig;
   }
 
   return parseSimpleYaml(raw);
 }
 
-function parseSimpleYaml(raw) {
-  const config = {};
+function parseSimpleYaml(raw: string): RawConfig {
+  const config: RawConfig = {};
 
   for (const rawLine of raw.split(/\r?\n/)) {
     const line = stripInlineComment(rawLine).trim();
@@ -56,14 +73,19 @@ function parseSimpleYaml(raw) {
       throw new Error(`Unsupported config line: ${rawLine}`);
     }
 
-    const [, key, value] = match;
+    const key = match[1];
+    const value = match[2];
+    if (!key || value === undefined) {
+      throw new Error(`Unsupported config line: ${rawLine}`);
+    }
+
     config[key] = parseValue(value);
   }
 
   return config;
 }
 
-function parseValue(value) {
+function parseValue(value: string): unknown {
   const trimmed = value.trim();
   if (!trimmed) return "";
   if (trimmed === "[]") return [];
@@ -71,7 +93,7 @@ function parseValue(value) {
     return trimmed
       .slice(1, -1)
       .split(",")
-      .map((item) => item.trim().replace(/^["']|["']$/g, ""))
+      .map((item: string) => item.trim().replace(/^["']|["']$/g, ""))
       .filter(Boolean);
   }
   if (/^(true|false)$/i.test(trimmed)) return trimmed.toLowerCase() === "true";
@@ -79,27 +101,37 @@ function parseValue(value) {
   if (trimmed.includes(",")) {
     return trimmed
       .split(",")
-      .map((item) => item.trim())
+      .map((item: string) => item.trim())
       .filter(Boolean);
   }
   return trimmed.replace(/^["']|["']$/g, "");
 }
 
-function normalizeConfig(config) {
-  return {
+function normalizeConfig(config: RawConfig): ResolvedSecurityIntakeConfig {
+  const normalized: ResolvedSecurityIntakeConfig = {
     ...DEFAULT_CONFIG,
-    ...pickNumber(config, "minReadyScore"),
-    ...pickNumber(config, "maxMissingForReady"),
-    ...pickNumber(config, "lowQualitySignalsForLikely"),
-    ...pickNumber(config, "missingForLikelyLowQuality"),
-    ...pickNumber(config, "penaltyPerLowQualitySignal"),
-    ...pickNumber(config, "maxPenalty"),
     disabledRules: normalizeDisabledRules(config.disabledRules),
   };
+
+  for (const key of [
+    "minReadyScore",
+    "maxMissingForReady",
+    "lowQualitySignalsForLikely",
+    "missingForLikelyLowQuality",
+    "penaltyPerLowQualitySignal",
+    "maxPenalty",
+  ] as const) {
+    const value = pickNumber(config, key);
+    if (value !== undefined) {
+      normalized[key] = value;
+    }
+  }
+
+  return normalized;
 }
 
-function stripInlineComment(line) {
-  let quote = null;
+function stripInlineComment(line: string): string {
+  let quote: string | null = null;
   for (let index = 0; index < line.length; index += 1) {
     const char = line[index];
     if ((char === '"' || char === "'") && line[index - 1] !== "\\") {
@@ -112,16 +144,16 @@ function stripInlineComment(line) {
   return line;
 }
 
-function pickNumber(config, key) {
-  if (config[key] === undefined) return {};
+function pickNumber(config: RawConfig, key: NumericConfigKey): number | undefined {
+  if (config[key] === undefined) return undefined;
   const value = Number(config[key]);
   if (!Number.isFinite(value)) {
     throw new Error(`Config value ${key} must be a number.`);
   }
-  return { [key]: value };
+  return value;
 }
 
-function normalizeDisabledRules(value) {
+function normalizeDisabledRules(value: unknown): string[] {
   if (!value) return [];
   if (Array.isArray(value)) return value.map(String);
   return String(value)

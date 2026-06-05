@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { runAction } from "../src/action.js";
-import { analyzeReport } from "../src/rules.js";
-import { loadConfig } from "../src/config.js";
+import { runAction } from "../dist/action.js";
+import { analyzeReport } from "../dist/rules.js";
+import { loadConfig } from "../dist/config.js";
 
 test("marks complete reports as ready for maintainer review", async () => {
   const text = await fixture("good-report.md");

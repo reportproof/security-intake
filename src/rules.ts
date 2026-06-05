@@ -1,4 +1,86 @@
-export const REQUIRED_EVIDENCE_RULES = [
+export const EXIT_CODES = {
+  ready_for_maintainer_review: 0,
+  needs_more_evidence: 1,
+  likely_low_quality_or_ai_generated: 2,
+} as const;
+
+export type Decision = keyof typeof EXIT_CODES;
+
+type RuleCategory = "required_evidence" | "low_quality_signal";
+type Severity = "low" | "medium" | "high";
+
+interface BaseRule {
+  id: string;
+  category: RuleCategory;
+  label: string;
+  severity: Severity;
+  why: string;
+}
+
+interface RequiredEvidenceRule extends BaseRule {
+  category: "required_evidence";
+  weight: number;
+  patterns: RegExp[];
+}
+
+interface LowQualityRule extends BaseRule {
+  category: "low_quality_signal";
+  pattern: RegExp;
+}
+
+type IntakeRule = RequiredEvidenceRule | LowQualityRule;
+
+export interface AnalysisConfig {
+  minReadyScore?: number;
+  maxMissingForReady?: number;
+  lowQualitySignalsForLikely?: number;
+  missingForLikelyLowQuality?: number;
+  penaltyPerLowQualitySignal?: number;
+  maxPenalty?: number;
+  disabledRules?: string[];
+}
+
+export interface EffectiveAnalysisConfig {
+  minReadyScore: number;
+  maxMissingForReady: number;
+  lowQualitySignalsForLikely: number;
+  missingForLikelyLowQuality: number;
+  penaltyPerLowQualitySignal: number;
+  maxPenalty: number;
+  disabledRules: string[];
+}
+
+export interface Finding {
+  id: string;
+  category: RuleCategory;
+  label: string;
+  severity: Severity;
+  why: string;
+}
+
+export interface AnalysisResult {
+  decision: Decision;
+  exitCode: (typeof EXIT_CODES)[Decision];
+  score: number;
+  present: Finding[];
+  missing: Finding[];
+  lowQualitySignals: Finding[];
+  suggestedResponse: string;
+  stats: {
+    lines: number;
+    characters: number;
+  };
+  config: Pick<
+    EffectiveAnalysisConfig,
+    | "minReadyScore"
+    | "maxMissingForReady"
+    | "lowQualitySignalsForLikely"
+    | "missingForLikelyLowQuality"
+    | "disabledRules"
+  >;
+}
+
+export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
   {
     id: "RP001_AFFECTED_VERSION",
     category: "required_evidence",
@@ -64,7 +146,7 @@ export const REQUIRED_EVIDENCE_RULES = [
   },
 ];
 
-export const LOW_QUALITY_RULES = [
+export const LOW_QUALITY_RULES: LowQualityRule[] = [
   {
     id: "RP101_SPECULATIVE_IMPACT",
     category: "low_quality_signal",
@@ -107,7 +189,7 @@ export const LOW_QUALITY_RULES = [
   },
 ];
 
-const DEFAULT_ANALYSIS_CONFIG = Object.freeze({
+const DEFAULT_ANALYSIS_CONFIG: EffectiveAnalysisConfig = Object.freeze({
   minReadyScore: 70,
   maxMissingForReady: 2,
   lowQualitySignalsForLikely: 3,
@@ -117,20 +199,14 @@ const DEFAULT_ANALYSIS_CONFIG = Object.freeze({
   disabledRules: [],
 });
 
-export const EXIT_CODES = {
-  ready_for_maintainer_review: 0,
-  needs_more_evidence: 1,
-  likely_low_quality_or_ai_generated: 2,
-};
-
-export function allRules() {
+export function allRules(): IntakeRule[] {
   return [...REQUIRED_EVIDENCE_RULES, ...LOW_QUALITY_RULES];
 }
 
-export function analyzeReport(text, config = {}) {
+export function analyzeReport(text: string, config: AnalysisConfig = {}): AnalysisResult {
   const effectiveConfig = { ...DEFAULT_ANALYSIS_CONFIG, ...config };
   const normalizedText = text.trim();
-  const disabledRules = new Set(effectiveConfig.disabledRules || []);
+  const disabledRules = new Set<string>(effectiveConfig.disabledRules || []);
   const requiredRules = REQUIRED_EVIDENCE_RULES.filter((rule) => !disabledRules.has(rule.id));
   const lowQualityRules = LOW_QUALITY_RULES.filter((rule) => !disabledRules.has(rule.id));
 
@@ -173,7 +249,17 @@ export function analyzeReport(text, config = {}) {
   };
 }
 
-function decide({ score, missing, lowQualitySignals, config }) {
+function decide({
+  score,
+  missing,
+  lowQualitySignals,
+  config,
+}: {
+  score: number;
+  missing: RequiredEvidenceRule[];
+  lowQualitySignals: LowQualityRule[];
+  config: EffectiveAnalysisConfig;
+}): Decision {
   if (
     lowQualitySignals.length >= config.lowQualitySignalsForLikely &&
     missing.length >= config.missingForLikelyLowQuality
@@ -188,18 +274,18 @@ function decide({ score, missing, lowQualitySignals, config }) {
   return "ready_for_maintainer_review";
 }
 
-function hasRequiredEvidence(text, rule) {
+function hasRequiredEvidence(text: string, rule: RequiredEvidenceRule): boolean {
   return rule.patterns.some((pattern) => pattern.test(text));
 }
 
-function splitLines(text) {
+function splitLines(text: string): string[] {
   return text
     .split(/\r?\n/)
     .map((line) => line.trim())
     .filter(Boolean);
 }
 
-function toFinding(rule) {
+function toFinding(rule: IntakeRule): Finding {
   return {
     id: rule.id,
     category: rule.category,
@@ -209,7 +295,7 @@ function toFinding(rule) {
   };
 }
 
-function buildSuggestedResponse(missing, lowQualitySignals) {
+function buildSuggestedResponse(missing: RequiredEvidenceRule[], lowQualitySignals: LowQualityRule[]): string {
   if (missing.length === 0 && lowQualitySignals.length === 0) {
     return "Thanks for the report. It includes enough initial evidence for maintainer review. We will validate the claim and follow up through the security process.";
   }
@@ -222,7 +308,7 @@ function buildSuggestedResponse(missing, lowQualitySignals) {
   return `Thanks for the report. We cannot assess this as a vulnerability without the following evidence:\n${missingText}${qualityText}\n\nPlease resubmit with concrete affected versions, reproduction steps, observed behavior, and security impact.`;
 }
 
-export function toMarkdown(result) {
+export function toMarkdown(result: AnalysisResult): string {
   const lines = [
     "# Security Intake Result",
     "",
@@ -247,7 +333,7 @@ export function toMarkdown(result) {
   return lines.join("\n");
 }
 
-function listFindings(items) {
+function listFindings(items: Finding[]): string[] {
   if (items.length === 0) return ["- None"];
   return items.map((item) => `- ${item.id}: ${item.label} (${item.severity})`);
 }

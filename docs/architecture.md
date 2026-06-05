@@ -1,6 +1,6 @@
 # Architecture
 
-`security-intake` intentionally starts as a deterministic local tool.
+`security-intake` intentionally starts as a deterministic local tool. The source is TypeScript and the shipped CLI/GitHub Action run on compiled JavaScript in `dist/` using Node.js 24.
 
 ## Flow
 
@@ -25,13 +25,20 @@ The tool does not:
 
 The first trust boundary is local execution: the report stays in the repository or workflow where the user runs the tool.
 
+## Language choice
+
+The project uses TypeScript from the start because the first distribution surfaces are an npm CLI and a GitHub Action. TypeScript gives the rule engine, config parser, Action inputs, and future integration APIs explicit contracts while still shipping plain JavaScript that runs directly on GitHub's Node 24 action runtime.
+
+Go may become useful later for a single-binary scanner if installation friction becomes a blocker. Python is kept out of the core runtime because package setup friction is higher for public CI users, and Rust is unnecessary unless the project grows into high-performance static analysis.
+
 ## Future seams
 
 The current interfaces are deliberately small:
 
-- `src/rules.js`: deterministic rule catalog and scoring.
-- `src/config.js`: project policy.
-- `src/cli.js`: local command-line use.
-- `src/action.js`: GitHub Action execution and outputs.
+- `src/rules.ts`: deterministic rule catalog and scoring.
+- `src/config.ts`: project policy.
+- `src/cli.ts`: local command-line use.
+- `src/action.ts`: GitHub Action execution and outputs.
+- `dist/*.js`: compiled runtime files used by npm and GitHub Actions.
 
 Future GitHub comments, private vulnerability reporting helpers, or hosted queues should build on these interfaces instead of bypassing them.

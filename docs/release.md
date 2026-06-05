@@ -12,7 +12,9 @@ This repo is release-ready when the checks below pass.
 - GitHub Actions CI passes on `main`.
 - CodeQL completes or has an understood, documented setup issue.
 - README quick start works from a fresh clone.
-- `docs/rubric.md` matches the rule IDs in `src/rules.js`.
+- `docs/rubric.md` matches the rule IDs in `src/rules.ts`.
+- `npm run build` creates committed `dist/` runtime files for the CLI and GitHub Action.
+- `action.yml` uses `runs.using: node24`; do not release Node 20-based Action metadata.
 - `CHANGELOG.md` has an entry for the release.
 
 ## Versioning

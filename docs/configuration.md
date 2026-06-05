@@ -9,13 +9,13 @@
 You can also pass a file explicitly:
 
 ```bash
-node src/cli.js report.md --config path/to/.security-intake.yml
+node dist/cli.js report.md --config path/to/.security-intake.yml
 ```
 
 Write an artifact:
 
 ```bash
-node src/cli.js report.md --output security-intake-result.md --no-fail
+node dist/cli.js report.md --output security-intake-result.md --no-fail
 ```
 
 ## Supported keys

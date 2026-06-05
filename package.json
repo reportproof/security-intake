@@ -12,13 +12,15 @@
     "url": "https://github.com/reportproof/security-intake/issues"
   },
   "bin": {
-    "security-intake": "./src/cli.js"
+    "security-intake": "./dist/cli.js"
   },
   "files": [
+    "dist/",
     "src/",
     "examples/",
     "docs/",
     "action.yml",
+    "tsconfig.json",
     "README.md",
     "SECURITY.md",
     "SUPPORT.md",
@@ -28,12 +30,14 @@
     "LICENSE"
   ],
   "scripts": {
-    "check": "node src/cli.js examples/good-report.md",
-    "check:syntax": "node --check src/cli.js && node --check src/action.js && node --check src/config.js && node --check src/rules.js",
-    "demo:bad": "node src/cli.js examples/ai-slop-report.md --no-fail",
-    "demo:json": "node src/cli.js examples/ai-slop-report.md --json --no-fail",
+    "build": "tsc -p tsconfig.json",
+    "check": "node dist/cli.js examples/good-report.md",
+    "check:syntax": "npm run build && node --check dist/cli.js && node --check dist/action.js && node --check dist/config.js && node --check dist/rules.js",
+    "demo:bad": "node dist/cli.js examples/ai-slop-report.md --no-fail",
+    "demo:json": "node dist/cli.js examples/ai-slop-report.md --json --no-fail",
     "pack:dry-run": "npm pack --dry-run",
-    "test": "node --test"
+    "prepack": "npm run build",
+    "test": "npm run build && node --test"
   },
   "keywords": [
     "security",
@@ -47,6 +51,10 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.0",
+    "typescript": "^6.0.3"
   }
 }
