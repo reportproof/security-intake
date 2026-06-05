@@ -39,6 +39,8 @@
     "demo:json": "node dist/cli.js examples/ai-slop-report.md --json --no-fail",
     "evaluate": "npm run build && node dist/evaluate.js",
     "eval": "npm run evaluate",
+    "benchmark:results": "npm run build && node dist/evaluate.js --output docs/benchmark-results.md",
+    "check:benchmark-results": "npm run build && node dist/evaluate.js --check-output docs/benchmark-results.md",
     "pack:dry-run": "npm pack --dry-run",
     "prepack": "npm run build",
     "test": "npm run build && node --test"

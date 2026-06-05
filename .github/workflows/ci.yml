@@ -19,6 +19,7 @@ jobs:
       - run: npm run check:syntax
       - run: npm test
       - run: npm run eval
+      - run: npm run check:benchmark-results
       - run: npm run check
       - run: npm run demo:bad
       - run: node dist/cli.js examples/ai-slop-report.md --json --no-fail
