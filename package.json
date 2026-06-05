@@ -1,0 +1,24 @@
+{
+  "name": "@reportproof/security-intake",
+  "version": "0.0.0",
+  "description": "Open-source security report intake checks for maintainers.",
+  "type": "module",
+  "bin": {
+    "security-intake": "./src/cli.js"
+  },
+  "scripts": {
+    "check": "node src/cli.js examples/ai-slop-report.md",
+    "test": "node --test"
+  },
+  "keywords": [
+    "security",
+    "vulnerability-disclosure",
+    "open-source",
+    "maintainers",
+    "triage"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}
