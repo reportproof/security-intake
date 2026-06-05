@@ -42,6 +42,10 @@ Then compare the decisions against the examples:
 
 If the output is wrong for your project, comment on [Feedback wanted: security-intake public validation](https://github.com/reportproof/security-intake/issues/3) or open a structured feedback issue. Use sanitized or synthetic examples only.
 
+Want to test the GitHub Action without wiring your own repository first? Use the
+external playground:
+[reportproof/security-intake-playground](https://github.com/reportproof/security-intake-playground).
+
 Run against any Markdown report:
 
 ```bash
@@ -107,6 +111,10 @@ jobs:
 
 For early validation, keep `fail-on-low-quality` set to `false` and review the generated output manually.
 The Action also writes a safe GitHub job summary with the decision, score, result file, and triggered rule IDs. It does not include the report body.
+
+The external Action path is verified in
+[reportproof/security-intake-playground](https://github.com/reportproof/security-intake-playground),
+which uses `reportproof/security-intake@main` from another public repository.
 
 Action outputs:
 
@@ -179,7 +187,7 @@ This is an early validation repo. Useful feedback is specific:
 - A missing field that maintainers need before triage.
 - A workflow where this could save time without annoying legitimate researchers.
 
-Start with the pinned validation issue: [Feedback wanted: security-intake public validation](https://github.com/reportproof/security-intake/issues/3). For structured examples, open a sanitized-report, rule-gap, or workflow-feedback issue. Do not post private vulnerabilities publicly.
+Start with the pinned validation issue: [Feedback wanted: security-intake public validation](https://github.com/reportproof/security-intake/issues/3). To inspect the external Action workflow first, use [reportproof/security-intake-playground](https://github.com/reportproof/security-intake-playground). For structured examples, open a sanitized-report, rule-gap, or workflow-feedback issue. Do not post private vulnerabilities publicly.
 
 The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS style benchmarks live in [benchmarks/](benchmarks/). Both are documented in [docs/evaluation.md](docs/evaluation.md), [docs/benchmarks.md](docs/benchmarks.md), and the current generated results in [docs/benchmark-results.md](docs/benchmark-results.md). Run `npm run eval` before changing the rubric. The pre-public OSS trial plan is in [docs/validation-plan.md](docs/validation-plan.md). Trust and safety guidance is in [docs/trust-safety.md](docs/trust-safety.md).
 
