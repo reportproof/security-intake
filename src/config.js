@@ -48,7 +48,7 @@ function parseSimpleYaml(raw) {
   const config = {};
 
   for (const rawLine of raw.split(/\r?\n/)) {
-    const line = rawLine.trim();
+    const line = stripInlineComment(rawLine).trim();
     if (!line || line.startsWith("#")) continue;
 
     const match = /^([A-Za-z][A-Za-z0-9_]*):\s*(.*)$/.exec(line);
@@ -66,6 +66,14 @@ function parseSimpleYaml(raw) {
 function parseValue(value) {
   const trimmed = value.trim();
   if (!trimmed) return "";
+  if (trimmed === "[]") return [];
+  if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+    return trimmed
+      .slice(1, -1)
+      .split(",")
+      .map((item) => item.trim().replace(/^["']|["']$/g, ""))
+      .filter(Boolean);
+  }
   if (/^(true|false)$/i.test(trimmed)) return trimmed.toLowerCase() === "true";
   if (/^-?\d+(\.\d+)?$/.test(trimmed)) return Number(trimmed);
   if (trimmed.includes(",")) {
@@ -88,6 +96,20 @@ function normalizeConfig(config) {
     ...pickNumber(config, "maxPenalty"),
     disabledRules: normalizeDisabledRules(config.disabledRules),
   };
+}
+
+function stripInlineComment(line) {
+  let quote = null;
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+    if ((char === '"' || char === "'") && line[index - 1] !== "\\") {
+      quote = quote === char ? null : quote || char;
+    }
+    if (char === "#" && !quote) {
+      return line.slice(0, index);
+    }
+  }
+  return line;
 }
 
 function pickNumber(config, key) {

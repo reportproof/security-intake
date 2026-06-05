@@ -23,26 +23,31 @@ inputs:
     description: Whether to fail the workflow when the CLI returns a non-ready decision.
     required: false
     default: "false"
+outputs:
+  decision:
+    description: Intake decision for the report.
+    value: ${{ steps.security-intake.outputs.decision }}
+  score:
+    description: Intake score from 0 to 100.
+    value: ${{ steps.security-intake.outputs.score }}
+  exit-code:
+    description: CLI-style exit code for the decision.
+    value: ${{ steps.security-intake.outputs.exit-code }}
+  result-path:
+    description: Path to the written result file.
+    value: ${{ steps.security-intake.outputs.result-path }}
 runs:
   using: composite
   steps:
     - name: Run security intake check
+      id: security-intake
       shell: bash
+      env:
+        INPUT_REPORT_PATH: ${{ inputs.report-path }}
+        INPUT_CONFIG_PATH: ${{ inputs.config-path }}
+        INPUT_FORMAT: ${{ inputs.format }}
+        INPUT_OUTPUT_PATH: ${{ inputs.output-path }}
+        INPUT_FAIL_ON_LOW_QUALITY: ${{ inputs.fail-on-low-quality }}
       run: |
         set -euo pipefail
-
-        args=("${{ inputs.report-path }}")
-
-        if [ -n "${{ inputs.config-path }}" ]; then
-          args+=("--config" "${{ inputs.config-path }}")
-        fi
-
-        if [ "${{ inputs.format }}" = "json" ]; then
-          args+=("--json")
-        fi
-
-        if [ "${{ inputs.fail-on-low-quality }}" != "true" ]; then
-          args+=("--no-fail")
-        fi
-
-        node "$GITHUB_ACTION_PATH/src/cli.js" "${args[@]}" | tee "${{ inputs.output-path }}"
+        node "$GITHUB_ACTION_PATH/src/action.js"

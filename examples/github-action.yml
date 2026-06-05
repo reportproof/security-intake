@@ -1,0 +1,22 @@
+name: Security intake check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: reportproof/security-intake@main
+        id: intake
+        with:
+          report-path: examples/ai-slop-report.md
+          config-path: .security-intake.yml
+          format: markdown
+          output-path: security-intake-result.md
+          fail-on-low-quality: "false"
+      - run: |
+          echo "decision=${{ steps.intake.outputs.decision }}"
+          echo "score=${{ steps.intake.outputs.score }}"
+          cat "${{ steps.intake.outputs.result-path }}"

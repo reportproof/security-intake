@@ -24,6 +24,7 @@ Run against any Markdown report:
 node src/cli.js examples/good-report.md
 node src/cli.js examples/ai-slop-report.md --json --no-fail
 node src/cli.js examples/scanner-dump.md --config .security-intake.yml --no-fail
+node src/cli.js examples/ai-slop-report.md --output security-intake-result.md --no-fail
 ```
 
 ## Example output
@@ -70,14 +71,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: reportproof/security-intake@main
+        id: intake
         with:
           report-path: examples/ai-slop-report.md
           config-path: .security-intake.yml
           format: markdown
+          output-path: security-intake-result.md
           fail-on-low-quality: "false"
+      - run: echo "decision=${{ steps.intake.outputs.decision }} score=${{ steps.intake.outputs.score }}"
 ```
 
 For early validation, keep `fail-on-low-quality` set to `false` and review the generated output manually.
+
+Action outputs:
+
+| Output | Meaning |
+| --- | --- |
+| `decision` | One of the three intake decisions. |
+| `score` | Score from `0` to `100`. |
+| `exit-code` | CLI-style exit code for the decision. |
+| `result-path` | Path to the written Markdown or JSON result file. |
 
 ## Configuration
 
@@ -141,3 +154,12 @@ This is an early validation repo. Useful feedback is specific:
 - A workflow where this could save time without annoying legitimate researchers.
 
 Open a feedback issue with a sanitized example. Do not post private vulnerabilities publicly.
+
+## Project operations
+
+- Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- Support scope: [SUPPORT.md](SUPPORT.md)
+- Architecture: [docs/architecture.md](docs/architecture.md)
+- Release checklist: [docs/release.md](docs/release.md)
+- Validation plan: [docs/validation-plan.md](docs/validation-plan.md)

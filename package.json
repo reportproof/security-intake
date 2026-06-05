@@ -3,13 +3,36 @@
   "version": "0.0.0",
   "description": "Open-source security report intake checks for maintainers.",
   "type": "module",
+  "homepage": "https://github.com/reportproof/security-intake#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reportproof/security-intake.git"
+  },
+  "bugs": {
+    "url": "https://github.com/reportproof/security-intake/issues"
+  },
   "bin": {
     "security-intake": "./src/cli.js"
   },
+  "files": [
+    "src/",
+    "examples/",
+    "docs/",
+    "action.yml",
+    "README.md",
+    "SECURITY.md",
+    "SUPPORT.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "scripts": {
     "check": "node src/cli.js examples/good-report.md",
+    "check:syntax": "node --check src/cli.js && node --check src/action.js && node --check src/config.js && node --check src/rules.js",
     "demo:bad": "node src/cli.js examples/ai-slop-report.md --no-fail",
     "demo:json": "node src/cli.js examples/ai-slop-report.md --json --no-fail",
+    "pack:dry-run": "npm pack --dry-run",
     "test": "node --test"
   },
   "keywords": [
@@ -20,6 +43,9 @@
     "triage"
   ],
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=20"
   }
