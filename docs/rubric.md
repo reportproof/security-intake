@@ -28,8 +28,8 @@
 
 Default thresholds:
 
-- `ready_for_maintainer_review`: score is at least `70` and no more than `2` required evidence rules are missing.
-- `needs_more_evidence`: score is below `70` or more than `2` required evidence rules are missing.
+- `ready_for_maintainer_review`: no high-severity required evidence is missing, score is at least `70`, and no more than `2` required evidence rules are missing.
+- `needs_more_evidence`: any high-severity required evidence is missing, score is below `70`, or more than `2` required evidence rules are missing.
 - `likely_low_quality_or_ai_generated`: at least `3` low-quality signals and at least `3` required evidence gaps.
 
 These defaults are intentionally conservative. Projects can tune them with `.security-intake.yml`.

@@ -25,6 +25,7 @@ export async function runAction(env = process.env, cwd = process.cwd(), io = def
         "exit-code": String(result.exitCode),
         "result-path": outputPath,
     });
+    await writeStepSummary(env.GITHUB_STEP_SUMMARY, result, outputPath);
     return {
         result,
         outputPath: resolvedOutputPath,
@@ -71,6 +72,33 @@ async function writeOutputs(outputFile, outputs) {
         return;
     const lines = Object.entries(outputs).map(([key, value]) => `${key}=${value}`);
     await fs.appendFile(outputFile, `${lines.join("\n")}\n`);
+}
+async function writeStepSummary(summaryFile, result, outputPath) {
+    if (!summaryFile)
+        return;
+    const summary = [
+        "## Security Intake Result",
+        "",
+        "| Field | Value |",
+        "| --- | --- |",
+        `| Decision | ${tableValue(result.decision)} |`,
+        `| Score | ${result.score}/100 |`,
+        `| Exit code | ${result.exitCode} |`,
+        `| Present evidence | ${result.present.length} |`,
+        `| Missing evidence | ${result.missing.length} |`,
+        `| Low-quality signals | ${result.lowQualitySignals.length} |`,
+        `| Result file | ${tableValue(outputPath)} |`,
+        "",
+        result.missing.length ? `Missing evidence: ${result.missing.map((rule) => `\`${rule.id}\``).join(", ")}` : "Missing evidence: none",
+        result.lowQualitySignals.length
+            ? `Low-quality signals: ${result.lowQualitySignals.map((rule) => `\`${rule.id}\``).join(", ")}`
+            : "Low-quality signals: none",
+        "",
+    ].join("\n");
+    await fs.appendFile(summaryFile, summary);
+}
+function tableValue(value) {
+    return value.replaceAll("|", "\\|").replace(/\r?\n/g, " ");
 }
 const defaultIo = {
     write(text) {

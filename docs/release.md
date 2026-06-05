@@ -5,6 +5,7 @@ This repo is release-ready when the checks below pass.
 ## Before tagging
 
 - `npm test`
+- `npm run eval`
 - `npm run check:syntax`
 - `npm run check`
 - `npm run demo:bad`
@@ -13,6 +14,8 @@ This repo is release-ready when the checks below pass.
 - CodeQL completes or has an understood, documented setup issue.
 - README quick start works from a fresh clone.
 - `docs/rubric.md` matches the rule IDs in `src/rules.ts`.
+- `docs/evaluation.md` matches `fixtures/evaluation-cases.json`.
+- `docs/trust-safety.md` still reflects the actual runtime behavior.
 - `npm run build` creates committed `dist/` runtime files for the CLI and GitHub Action.
 - `action.yml` uses `runs.using: node24`; do not release Node 20-based Action metadata.
 - `CHANGELOG.md` has an entry for the release.

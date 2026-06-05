@@ -15,6 +15,7 @@ See [docs/problem.md](docs/problem.md) for the public evidence behind the proble
 ```bash
 npm install
 npm test
+npm run eval
 node dist/cli.js examples/ai-slop-report.md --no-fail
 ```
 
@@ -84,6 +85,7 @@ jobs:
 ```
 
 For early validation, keep `fail-on-low-quality` set to `false` and review the generated output manually.
+The Action also writes a safe GitHub job summary with the decision, score, result file, and triggered rule IDs. It does not include the report body.
 
 Action outputs:
 
@@ -158,6 +160,8 @@ This is an early validation repo. Useful feedback is specific:
 
 Open a feedback issue with a sanitized example. Do not post private vulnerabilities publicly.
 
+The synthetic validation corpus lives in [fixtures/](fixtures/) and is documented in [docs/evaluation.md](docs/evaluation.md). Run `npm run eval` before changing the rubric. Trust and safety guidance is in [docs/trust-safety.md](docs/trust-safety.md).
+
 ## Project operations
 
 - Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
@@ -166,3 +170,5 @@ Open a feedback issue with a sanitized example. Do not post private vulnerabilit
 - Architecture: [docs/architecture.md](docs/architecture.md)
 - Release checklist: [docs/release.md](docs/release.md)
 - Validation plan: [docs/validation-plan.md](docs/validation-plan.md)
+- Evaluation corpus: [docs/evaluation.md](docs/evaluation.md)
+- Trust and safety: [docs/trust-safety.md](docs/trust-safety.md)

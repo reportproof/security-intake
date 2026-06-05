@@ -1,0 +1,132 @@
+[
+  {
+    "id": "complete-web-session-fixation",
+    "reportPath": "fixtures/reports/complete-web-session-fixation.md",
+    "description": "Complete synthetic web report with version, component, reproduction, observed result, impact, proof, and environment.",
+    "expectedDecision": "ready_for_maintainer_review",
+    "expectedPresent": [
+      "RP001_AFFECTED_VERSION",
+      "RP002_AFFECTED_COMPONENT",
+      "RP003_REPRODUCTION_STEPS",
+      "RP004_OBSERVED_RESULT",
+      "RP005_SECURITY_IMPACT",
+      "RP006_PROOF_OR_EVIDENCE",
+      "RP007_TESTED_ENVIRONMENT"
+    ],
+    "expectedMissing": [],
+    "protects": "Good reports should not be blocked just because the project has not validated the vulnerability yet."
+  },
+  {
+    "id": "short-but-actionable-report",
+    "reportPath": "fixtures/reports/short-but-actionable-report.md",
+    "description": "Short report that still gives maintainers enough concrete evidence to start triage.",
+    "expectedDecision": "ready_for_maintainer_review",
+    "expectedPresent": [
+      "RP001_AFFECTED_VERSION",
+      "RP002_AFFECTED_COMPONENT",
+      "RP003_REPRODUCTION_STEPS",
+      "RP004_OBSERVED_RESULT",
+      "RP005_SECURITY_IMPACT",
+      "RP006_PROOF_OR_EVIDENCE",
+      "RP007_TESTED_ENVIRONMENT"
+    ],
+    "expectedMissing": [],
+    "protects": "The rubric should not reward verbosity over actionable evidence."
+  },
+  {
+    "id": "public-advisory-summary",
+    "reportPath": "fixtures/reports/public-advisory-summary.md",
+    "description": "Synthetic advisory-style report for a known fixed issue.",
+    "expectedDecision": "ready_for_maintainer_review",
+    "expectedPresent": [
+      "RP001_AFFECTED_VERSION",
+      "RP002_AFFECTED_COMPONENT",
+      "RP003_REPRODUCTION_STEPS",
+      "RP004_OBSERVED_RESULT",
+      "RP005_SECURITY_IMPACT",
+      "RP006_PROOF_OR_EVIDENCE",
+      "RP007_TESTED_ENVIRONMENT"
+    ],
+    "expectedMissing": [],
+    "protects": "Advisory summaries can be high-quality even when they are not exploit walkthroughs."
+  },
+  {
+    "id": "missing-reproduction-steps",
+    "reportPath": "fixtures/reports/missing-reproduction-steps.md",
+    "description": "Includes target and impact, but no concrete reproduction steps.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP003_REPRODUCTION_STEPS"],
+    "protects": "Maintainers should be able to ask for repro detail without labeling the report as junk."
+  },
+  {
+    "id": "missing-impact",
+    "reportPath": "fixtures/reports/missing-impact.md",
+    "description": "Looks reproducible but does not explain attacker capability or security impact.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP005_SECURITY_IMPACT"],
+    "protects": "Reproduction alone should not make a report ready when the security impact is absent."
+  },
+  {
+    "id": "dependency-alert-without-reachability",
+    "reportPath": "fixtures/reports/dependency-alert-without-reachability.md",
+    "description": "Package scanner alert with version and environment but no project-specific reachability proof.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP003_REPRODUCTION_STEPS", "RP006_PROOF_OR_EVIDENCE"],
+    "expectedLowQualitySignals": ["RP103_GENERIC_SCANNER_DUMP"],
+    "protects": "Scanner findings should be salvageable when they need reachability evidence."
+  },
+  {
+    "id": "environment-only-bug",
+    "reportPath": "fixtures/reports/environment-only-bug.md",
+    "description": "Environment and error report with no security impact or proof.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP005_SECURITY_IMPACT"],
+    "protects": "Operational bugs should not be upgraded to security reports without impact evidence."
+  },
+  {
+    "id": "scanner-dump-unreachable",
+    "reportPath": "fixtures/reports/scanner-dump-unreachable.md",
+    "description": "Generic automated scan output with no concrete target or validation.",
+    "expectedDecision": "likely_low_quality_or_ai_generated",
+    "expectedLowQualitySignals": [
+      "RP101_SPECULATIVE_IMPACT",
+      "RP102_UNTESTED_CLAIM",
+      "RP103_GENERIC_SCANNER_DUMP",
+      "RP104_NO_CONCRETE_TARGET"
+    ],
+    "protects": "Unvalidated dumps should be routed away from maintainer triage."
+  },
+  {
+    "id": "ai-generated-speculation",
+    "reportPath": "fixtures/reports/ai-generated-speculation.md",
+    "description": "AI-disclosed speculative report with no concrete target, test, or proof.",
+    "expectedDecision": "likely_low_quality_or_ai_generated",
+    "expectedLowQualitySignals": [
+      "RP101_SPECULATIVE_IMPACT",
+      "RP102_UNTESTED_CLAIM",
+      "RP104_NO_CONCRETE_TARGET",
+      "RP105_AI_GENERATED_DISCLOSURE"
+    ],
+    "protects": "AI-assisted submissions should meet the same evidence bar as human submissions."
+  },
+  {
+    "id": "no-concrete-target",
+    "reportPath": "fixtures/reports/no-concrete-target.md",
+    "description": "Generic report addressed to 'your application' with no named component.",
+    "expectedDecision": "likely_low_quality_or_ai_generated",
+    "expectedMissing": [
+      "RP001_AFFECTED_VERSION",
+      "RP002_AFFECTED_COMPONENT",
+      "RP003_REPRODUCTION_STEPS",
+      "RP004_OBSERVED_RESULT",
+      "RP006_PROOF_OR_EVIDENCE",
+      "RP007_TESTED_ENVIRONMENT"
+    ],
+    "expectedLowQualitySignals": [
+      "RP101_SPECULATIVE_IMPACT",
+      "RP102_UNTESTED_CLAIM",
+      "RP104_NO_CONCRETE_TARGET"
+    ],
+    "protects": "Reports without a concrete target should not consume direct maintainer triage time."
+  }
+]

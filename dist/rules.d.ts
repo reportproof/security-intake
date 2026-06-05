@@ -17,6 +17,7 @@ interface RequiredEvidenceRule extends BaseRule {
     category: "required_evidence";
     weight: number;
     patterns: RegExp[];
+    negativePatterns?: RegExp[];
 }
 interface LowQualityRule extends BaseRule {
     category: "low_quality_signal";

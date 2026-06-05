@@ -70,6 +70,7 @@ test("action runner writes result file and GitHub outputs", async () => {
   const reportPath = path.join(tempDir, "report.md");
   const outputPath = path.join(tempDir, "result.json");
   const githubOutput = path.join(tempDir, "github-output");
+  const githubStepSummary = path.join(tempDir, "github-step-summary");
   await fs.writeFile(reportPath, await fixture("ai-slop-report.md"));
 
   const writes = [];
@@ -80,6 +81,7 @@ test("action runner writes result file and GitHub outputs", async () => {
       "INPUT_OUTPUT-PATH": outputPath,
       "INPUT_FAIL-ON-LOW-QUALITY": "false",
       GITHUB_OUTPUT: githubOutput,
+      GITHUB_STEP_SUMMARY: githubStepSummary,
     },
     tempDir,
     { write: (text) => writes.push(text) }
@@ -89,9 +91,33 @@ test("action runner writes result file and GitHub outputs", async () => {
   assert.equal(action.processExitCode, 0);
   assert.match(await fs.readFile(outputPath, "utf8"), /likely_low_quality_or_ai_generated/);
   assert.match(await fs.readFile(githubOutput, "utf8"), /decision=likely_low_quality_or_ai_generated/);
+  assert.match(await fs.readFile(githubStepSummary, "utf8"), /Security Intake Result/);
+  assert.match(await fs.readFile(githubStepSummary, "utf8"), /RP003_REPRODUCTION_STEPS/);
   assert.equal(writes.length, 1);
+});
+
+test("public evaluation corpus matches expected decisions", async () => {
+  const cases = JSON.parse(await fs.readFile(new URL("../fixtures/evaluation-cases.json", import.meta.url), "utf8"));
+
+  for (const evaluationCase of cases) {
+    const text = await fs.readFile(new URL(`../${evaluationCase.reportPath}`, import.meta.url), "utf8");
+    const result = analyzeReport(text);
+
+    assert.equal(result.decision, evaluationCase.expectedDecision, evaluationCase.id);
+    assertExpectedIds(result.present, evaluationCase.expectedPresent, evaluationCase.id);
+    assertExpectedIds(result.missing, evaluationCase.expectedMissing, evaluationCase.id);
+    assertExpectedIds(result.lowQualitySignals, evaluationCase.expectedLowQualitySignals, evaluationCase.id);
+  }
 });
 
 async function fixture(name) {
   return fs.readFile(new URL(`../examples/${name}`, import.meta.url), "utf8");
+}
+
+function assertExpectedIds(findings, expectedIds, caseId) {
+  if (!expectedIds) return;
+  const actualIds = new Set(findings.map((finding) => finding.id));
+  for (const expectedId of expectedIds) {
+    assert.equal(actualIds.has(expectedId), true, `${caseId} should include ${expectedId}`);
+  }
 }
