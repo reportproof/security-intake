@@ -219,6 +219,7 @@ The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS s
 
 - Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Repository governance: [docs/repository-governance.md](docs/repository-governance.md)
+- OpenSSF Best Practices readiness: [docs/openssf-best-practices.md](docs/openssf-best-practices.md)
 - Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - Support scope: [SUPPORT.md](SUPPORT.md)
 - Public feedback guide: [docs/public-feedback.md](docs/public-feedback.md)

@@ -32,6 +32,9 @@ Do not add LLM-based classification yet. The current project phase values transp
 `main` is protected by branch protection and the `Protect main` ruleset.
 Contributor changes should go through pull requests with one approving review,
 resolved review conversations, and green `test` and `Analyze JavaScript` checks.
+Maintainer changes should also use pull requests by default; direct administrator
+pushes are reserved for urgent repository recovery or security-sensitive public
+documentation fixes.
 
 Default ownership is documented in `.github/CODEOWNERS`. Code owner review is
 not enforced yet because this is currently a solo-maintainer validation repo.
