@@ -85,6 +85,8 @@ Minimum gate before broad posting:
 - Secret scanning has zero alerts.
 - `docs/public-validation-sprint.md` defines the current audience, non-targets,
   post drafts, and stop/continue rules.
+- `docs/openssf-best-practices.md` tracks OpenSSF Best Practices badge
+  readiness.
 - `docs/benchmark-results.md` is current.
 - `docs/oss-trial-results.md` is current.
 - `docs/public-advisory-trial.md` records the public advisory source set.
@@ -100,10 +102,12 @@ Minimum gate before broad posting:
 
 1. Run the 14-day public validation sprint.
 2. Convert concrete feedback into fixtures, wording changes, or documentation.
-3. Add snapshot tests for Markdown and JSON output if output wording becomes a
+3. Complete the OpenSSF Best Practices passing badge self-assessment if public
+   validation continues.
+4. Add snapshot tests for Markdown and JSON output if output wording becomes a
    feedback focus.
-4. Add an issue, private-report, or `SECURITY.md` template generator if
+5. Add an issue, private-report, or `SECURITY.md` template generator if
    maintainers ask for it.
-5. Add advisory GitHub Action comments only after users ask to run this in real
+6. Add advisory GitHub Action comments only after users ask to run this in real
    GitHub workflows.
-6. Only then consider hosted org workflow.
+7. Only then consider hosted org workflow.
