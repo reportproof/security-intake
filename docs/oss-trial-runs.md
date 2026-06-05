@@ -25,6 +25,10 @@ real maintainer workflows.
    - `likely_low_quality_or_ai_generated` when a report is vague, untested, or
      generic enough to waste maintainer triage time.
 5. Add stable cases to `fixtures/evaluation-cases.json` so CI catches regressions.
+6. For GitHub Action validation, use the external playground:
+   <https://github.com/reportproof/security-intake-playground>.
+   The playground runs `reportproof/security-intake@main` from a separate public
+   repository and asserts expected decisions for sanitized sample reports.
 
 ## Trial profiles
 
