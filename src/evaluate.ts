@@ -47,6 +47,7 @@ const profileOrder = [
   "pnpm-style",
   "Homebrew-style",
   "Rust-style",
+  "Public advisory-style",
 ] as const;
 
 type ProfileName = (typeof profileOrder)[number];
@@ -177,7 +178,7 @@ function renderBenchmarkResults(results: EvaluationResult[]): string {
     "",
     "- Benchmark profiles are synthetic style fixtures, not upstream project reports.",
     "- Do not open upstream issues based on these fixtures.",
-    "- Use the results to critique `security-intake` decisions, not Expo, Flutter, Node.js, Kubernetes, pnpm, Homebrew, Rust, or their maintainers.",
+    "- Use the results to critique `security-intake` decisions, not Expo, Flutter, Node.js, Kubernetes, pnpm, Homebrew, Rust, GitHub Security Lab, Rails, Next.js, Grafana, RustSec, curl, or their maintainers.",
     "- `ready_for_maintainer_review` means evidence readiness, not vulnerability truth.",
     "",
   ];
@@ -301,6 +302,7 @@ function profileFor(reportPath: string): ProfileName {
   if (reportPath.startsWith("benchmarks/pnpm-style/")) return "pnpm-style";
   if (reportPath.startsWith("benchmarks/homebrew-style/")) return "Homebrew-style";
   if (reportPath.startsWith("benchmarks/rust-style/")) return "Rust-style";
+  if (reportPath.startsWith("benchmarks/public-advisory-style/")) return "Public advisory-style";
   return "Core synthetic corpus";
 }
 

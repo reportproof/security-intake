@@ -46,16 +46,18 @@ asking strangers for feedback.
 7. Review [docs/benchmark-results.md](benchmark-results.md) and
    [docs/oss-trial-results.md](oss-trial-results.md), then confirm the
    result does not read like a claim about real upstream vulnerabilities.
-8. Pick 3 to 5 mature OSS project shapes, such as mobile tooling, framework SDK,
+8. Review the public advisory trial:
+   [docs/public-advisory-trial.md](public-advisory-trial.md).
+9. Pick 3 to 5 mature OSS project shapes, such as mobile tooling, framework SDK,
    runtime, package manager, or developer infrastructure.
-9. Create only synthetic or sanitized Markdown reports for those shapes.
-10. Run `node dist/cli.js <report.md> --no-fail` on each report.
-11. Record whether the output is:
+10. Create only synthetic or sanitized Markdown reports for those shapes.
+11. Run `node dist/cli.js <report.md> --no-fail` on each report.
+12. Record whether the output is:
    - correct enough to share publicly,
    - confusing but fixable with wording,
    - wrong enough to become a fixture or rule change.
-12. Convert every useful failure into a fixture in `fixtures/` or `benchmarks/`.
-13. Only then draft public posts for X, Reddit, Product Hunt, or Hacker News.
+13. Convert every useful failure into a fixture in `fixtures/` or `benchmarks/`.
+14. Only then draft public posts for X, Reddit, Product Hunt, or Hacker News.
 
 Safety rules:
 
@@ -73,6 +75,7 @@ Minimum gate before broad posting:
 - Secret scanning has zero alerts.
 - `docs/benchmark-results.md` is current.
 - `docs/oss-trial-results.md` is current.
+- `docs/public-advisory-trial.md` records the public advisory source set.
 - `docs/public-feedback.md` points people to the structured issue forms.
 - `docs/maintainer-evaluation.md` gives a short external evaluation path.
 - `docs/output-gallery.md` shows ready, salvageable, and low-quality outputs.

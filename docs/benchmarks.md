@@ -14,6 +14,7 @@ Current benchmark profiles:
 - `pnpm-style`: package-manager supply-chain reports, supported versions, lockfile/integrity proof expectations.
 - `homebrew-style`: package-manager trust boundaries, official metadata, third-party taps, and scanner-only claims.
 - `rust-style`: language/toolchain reports, trusted source assumptions, security-response scope, and vague AI claims.
+- `public-advisory-style`: synthetic cases modeled after public advisories from GitHub Security Lab, Rails, Next.js, Grafana, Kubernetes, RustSec, and curl.
 
 These are style benchmarks only. They do not claim vulnerabilities in Expo,
 Flutter, Node.js, Kubernetes, pnpm, Homebrew, Rust, or related projects.
@@ -46,5 +47,7 @@ cases registered in `fixtures/evaluation-cases.json`.
 - Homebrew documents supported rolling-release boundaries, third-party tap scope, scanner-only report limits, and public-research conduct: <https://github.com/Homebrew/brew/security/policy>.
 - Rust documents Security Response WG scope, toolchain assumptions, third-party crate boundaries, and disclosure handling: <https://www.rust-lang.org/policies/security>.
 
-See `docs/evaluation.md` for the case list and expected decisions. The current
-OSS trial method is documented in `docs/oss-trial-runs.md`.
+The public advisory trial is documented in
+[docs/public-advisory-trial.md](public-advisory-trial.md). See
+`docs/evaluation.md` for the case list and expected decisions. The current OSS
+trial method is documented in `docs/oss-trial-runs.md`.

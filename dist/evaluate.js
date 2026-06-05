@@ -14,6 +14,7 @@ const profileOrder = [
     "pnpm-style",
     "Homebrew-style",
     "Rust-style",
+    "Public advisory-style",
 ];
 export async function runEvaluation(casesPath = defaultCasesPath) {
     const cases = await readCases(casesPath);
@@ -118,7 +119,7 @@ function renderBenchmarkResults(results) {
         "",
         "- Benchmark profiles are synthetic style fixtures, not upstream project reports.",
         "- Do not open upstream issues based on these fixtures.",
-        "- Use the results to critique `security-intake` decisions, not Expo, Flutter, Node.js, Kubernetes, pnpm, Homebrew, Rust, or their maintainers.",
+        "- Use the results to critique `security-intake` decisions, not Expo, Flutter, Node.js, Kubernetes, pnpm, Homebrew, Rust, GitHub Security Lab, Rails, Next.js, Grafana, RustSec, curl, or their maintainers.",
         "- `ready_for_maintainer_review` means evidence readiness, not vulnerability truth.",
         "",
     ];
@@ -239,6 +240,8 @@ function profileFor(reportPath) {
         return "Homebrew-style";
     if (reportPath.startsWith("benchmarks/rust-style/"))
         return "Rust-style";
+    if (reportPath.startsWith("benchmarks/public-advisory-style/"))
+        return "Public advisory-style";
     return "Core synthetic corpus";
 }
 function isOssStyleResult(result) {

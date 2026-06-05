@@ -302,5 +302,73 @@
       "RP105_AI_GENERATED_DISCLOSURE"
     ],
     "protects": "AI-generated language/toolchain claims should not reach direct triage without concrete evidence."
+  },
+  {
+    "id": "public-advisory-style-github-security-lab-workflow-injection-complete",
+    "reportPath": "benchmarks/public-advisory-style/github-security-lab-workflow-injection-complete.md",
+    "description": "Public advisory-style complete coordinated-disclosure report for a privileged workflow injection claim.",
+    "expectedDecision": "ready_for_maintainer_review",
+    "expectedMissing": [],
+    "protects": "Coordinated-disclosure-style reports with concrete version, component, repro, logs, and impact should reach maintainer triage."
+  },
+  {
+    "id": "public-advisory-style-nextjs-release-middleware-bypass-complete",
+    "reportPath": "benchmarks/public-advisory-style/nextjs-release-middleware-bypass-complete.md",
+    "description": "Public advisory-style complete framework middleware bypass report.",
+    "expectedDecision": "ready_for_maintainer_review",
+    "expectedMissing": [],
+    "protects": "Framework security-release-shaped reports should pass when they include a concrete repro and sanitized proof."
+  },
+  {
+    "id": "public-advisory-style-rails-ghsa-active-storage-missing-repro",
+    "reportPath": "benchmarks/public-advisory-style/rails-ghsa-active-storage-missing-repro.md",
+    "description": "Public advisory-style Rails/GHSA summary missing reproduction and proof.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP003_REPRODUCTION_STEPS", "RP006_PROOF_OR_EVIDENCE"],
+    "protects": "Concise public advisory summaries should not be treated as intake-ready when an incoming report lacks repro and proof."
+  },
+  {
+    "id": "public-advisory-style-grafana-permission-missing-proof",
+    "reportPath": "benchmarks/public-advisory-style/grafana-advisory-permission-missing-proof.md",
+    "description": "Public advisory-style product permission report with steps but no proof.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP006_PROOF_OR_EVIDENCE"],
+    "protects": "Product advisory-shaped reports should ask for sanitized proof when steps and impact are present but evidence is absent."
+  },
+  {
+    "id": "public-advisory-style-kubernetes-cve-feed-scanner-dump",
+    "reportPath": "benchmarks/public-advisory-style/kubernetes-cve-feed-scanner-dump.md",
+    "description": "Public CVE-feed scanner dump with no tested target, version, component, or proof.",
+    "expectedDecision": "likely_low_quality_or_ai_generated",
+    "expectedLowQualitySignals": [
+      "RP101_SPECULATIVE_IMPACT",
+      "RP102_UNTESTED_CLAIM",
+      "RP103_GENERIC_SCANNER_DUMP",
+      "RP104_NO_CONCRETE_TARGET"
+    ],
+    "protects": "Copy-pasted public CVE feed matches should be routed away from direct triage without project-specific evidence."
+  },
+  {
+    "id": "public-advisory-style-rustsec-dependency-no-reachability",
+    "reportPath": "benchmarks/public-advisory-style/rustsec-dependency-no-reachability.md",
+    "description": "Public advisory-style RustSec dependency alert without project reachability proof.",
+    "expectedDecision": "needs_more_evidence",
+    "expectedMissing": ["RP003_REPRODUCTION_STEPS", "RP006_PROOF_OR_EVIDENCE"],
+    "expectedLowQualitySignals": ["RP103_GENERIC_SCANNER_DUMP"],
+    "protects": "Dependency advisory matches should ask for project-specific reachability evidence before maintainer triage."
+  },
+  {
+    "id": "public-advisory-style-curl-ai-slop-connection-claim",
+    "reportPath": "benchmarks/public-advisory-style/curl-ai-slop-connection-claim.md",
+    "description": "Public advisory-style curl claim generated from a generic AI summary with no testing.",
+    "expectedDecision": "likely_low_quality_or_ai_generated",
+    "expectedLowQualitySignals": [
+      "RP101_SPECULATIVE_IMPACT",
+      "RP102_UNTESTED_CLAIM",
+      "RP103_GENERIC_SCANNER_DUMP",
+      "RP104_NO_CONCRETE_TARGET",
+      "RP105_AI_GENERATED_DISCLOSURE"
+    ],
+    "protects": "AI-generated reports derived from public CVE summaries should not reach direct triage without a concrete tested target."
   }
 ]
