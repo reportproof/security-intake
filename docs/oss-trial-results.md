@@ -6,12 +6,12 @@ This is the focused pre-outreach trial set for real-world-style maintainer workf
 
 ## Summary
 
-- Cases: 19
-- Passed: 19
+- Cases: 26
+- Passed: 26
 - Failed: 0
-- Ready for maintainer review: 6
-- Needs more evidence: 9
-- Likely low quality / AI-generated: 4
+- Ready for maintainer review: 8
+- Needs more evidence: 12
+- Likely low quality / AI-generated: 6
 
 ## What This Tests
 
@@ -31,6 +31,7 @@ This is the focused pre-outreach trial set for real-world-style maintainer workf
 | pnpm-style | 1 | 0 | 1 | 0 |
 | Homebrew-style | 1 | 1 | 0 | 0 |
 | Rust-style | 1 | 0 | 0 | 1 |
+| Public advisory-style | 7 | 2 | 3 | 2 |
 
 ## Cases
 
@@ -55,6 +56,13 @@ This is the focused pre-outreach trial set for real-world-style maintainer workf
 | pnpm-style | [pnpm-style-lockfile-tarball-integrity-missing-proof](../benchmarks/pnpm-style/lockfile-tarball-integrity-missing-proof.md) | Needs more evidence | Needs more evidence | 86 | Pass | Package-manager supply-chain claims should ask for proof before maintainer triage. |
 | Homebrew-style | [homebrew-style-third-party-tap-boundary-complete](../benchmarks/homebrew-style/third-party-tap-boundary-complete.md) | Ready for maintainer review | Ready for maintainer review | 92 | Pass | The tool should preserve evidence-complete boundary reports for maintainers rather than deciding project scope itself. |
 | Rust-style | [rust-style-vague-ai-toolchain-claim](../benchmarks/rust-style/vague-ai-toolchain-claim.md) | Likely low quality / AI-generated | Likely low quality / AI-generated | 0 | Pass | AI-generated language/toolchain claims should not reach direct triage without concrete evidence. |
+| Public advisory-style | [public-advisory-style-github-security-lab-workflow-injection-complete](../benchmarks/public-advisory-style/github-security-lab-workflow-injection-complete.md) | Ready for maintainer review | Ready for maintainer review | 100 | Pass | Coordinated-disclosure-style reports with concrete version, component, repro, logs, and impact should reach maintainer triage. |
+| Public advisory-style | [public-advisory-style-nextjs-release-middleware-bypass-complete](../benchmarks/public-advisory-style/nextjs-release-middleware-bypass-complete.md) | Ready for maintainer review | Ready for maintainer review | 100 | Pass | Framework security-release-shaped reports should pass when they include a concrete repro and sanitized proof. |
+| Public advisory-style | [public-advisory-style-rails-ghsa-active-storage-missing-repro](../benchmarks/public-advisory-style/rails-ghsa-active-storage-missing-repro.md) | Needs more evidence | Needs more evidence | 68 | Pass | Concise public advisory summaries should not be treated as intake-ready when an incoming report lacks repro and proof. |
+| Public advisory-style | [public-advisory-style-grafana-permission-missing-proof](../benchmarks/public-advisory-style/grafana-advisory-permission-missing-proof.md) | Needs more evidence | Needs more evidence | 86 | Pass | Product advisory-shaped reports should ask for sanitized proof when steps and impact are present but evidence is absent. |
+| Public advisory-style | [public-advisory-style-kubernetes-cve-feed-scanner-dump](../benchmarks/public-advisory-style/kubernetes-cve-feed-scanner-dump.md) | Likely low quality / AI-generated | Likely low quality / AI-generated | 22 | Pass | Copy-pasted public CVE feed matches should be routed away from direct triage without project-specific evidence. |
+| Public advisory-style | [public-advisory-style-rustsec-dependency-no-reachability](../benchmarks/public-advisory-style/rustsec-dependency-no-reachability.md) | Needs more evidence | Needs more evidence | 52 | Pass | Dependency advisory matches should ask for project-specific reachability evidence before maintainer triage. |
+| Public advisory-style | [public-advisory-style-curl-ai-slop-connection-claim](../benchmarks/public-advisory-style/curl-ai-slop-connection-claim.md) | Likely low quality / AI-generated | Likely low quality / AI-generated | 28 | Pass | AI-generated reports derived from public CVE summaries should not reach direct triage without a concrete tested target. |
 
 ## How To Reproduce
 

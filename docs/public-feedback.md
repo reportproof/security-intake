@@ -26,6 +26,7 @@ Then inspect:
 - [Maintainer evaluation guide](maintainer-evaluation.md)
 - [Output gallery](output-gallery.md)
 - [OSS triage trial results](oss-trial-results.md)
+- [Public advisory trial](public-advisory-trial.md)
 - [Benchmark results](benchmark-results.md)
 - [Rule rubric](rubric.md)
 - [GitHub Action evaluation workflow](github-action-evaluation.md)
@@ -101,9 +102,9 @@ It does not decide vulnerability truth. It flags missing affected versions,
 reproduction steps, proof/evidence, impact, and low-confidence scanner or
 AI-style claims.
 
-Current focused OSS-style trial: 19/19 expected classifications across synthetic
-Expo, Flutter, Node.js, Kubernetes, pnpm, Homebrew, and Rust-style report
-shapes.
+Current focused OSS-style trial includes expected classifications across
+synthetic Expo, Flutter, Node.js, Kubernetes, pnpm, Homebrew, Rust, and public
+advisory-style report shapes.
 
 Looking for maintainers/security triagers to critique the rubric:
 https://github.com/reportproof/security-intake/blob/main/docs/public-feedback.md

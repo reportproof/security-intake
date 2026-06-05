@@ -40,11 +40,14 @@ CI runs the same command on every push and pull request.
 | `pnpm-style` | 1 | Package-manager supply-chain report that needs proof before triage. |
 | `homebrew-style` | 1 | Evidence-complete package-manager boundary report where maintainers decide final scope. |
 | `rust-style` | 1 | Vague AI-generated language/toolchain claim with no concrete evidence. |
+| `public-advisory-style` | 7 | Synthetic public-advisory-shaped reports from mature advisory ecosystems, including complete, salvageable, scanner-copy, dependency, and AI-summary cases. |
 
 The benchmark cases are synthetic and not endorsed by Expo, Flutter, Node.js,
-Kubernetes, pnpm, Homebrew, Rust, or their maintainers. They are style
-benchmarks for report-quality behavior only. See [docs/benchmarks.md](benchmarks.md)
-and [docs/oss-trial-runs.md](oss-trial-runs.md).
+Kubernetes, pnpm, Homebrew, Rust, GitHub Security Lab, Rails, Next.js, Grafana,
+RustSec, curl, or their maintainers. They are style benchmarks for
+report-quality behavior only. See [docs/benchmarks.md](benchmarks.md),
+[docs/public-advisory-trial.md](public-advisory-trial.md), and
+[docs/oss-trial-runs.md](oss-trial-runs.md).
 
 ## Adding cases
 
