@@ -27,6 +27,17 @@ Rule changes should include:
 
 Do not add LLM-based classification yet. The current project phase values transparent deterministic rules over opaque judgment.
 
+## Pull request flow
+
+`main` is protected by branch protection and the `Protect main` ruleset.
+Contributor changes should go through pull requests with one approving review,
+resolved review conversations, and green `test` and `Analyze JavaScript` checks.
+
+Default ownership is documented in `.github/CODEOWNERS`. Code owner review is
+not enforced yet because this is currently a solo-maintainer validation repo.
+See [docs/repository-governance.md](docs/repository-governance.md) for the
+current rules and the team hardening path.
+
 ## Local checks
 
 ```bash
