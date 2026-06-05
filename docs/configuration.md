@@ -41,3 +41,7 @@ The YAML parser is intentionally minimal. It supports top-level `key: value` pai
 ## Philosophy
 
 Configuration should help projects tune policy without hiding the evidence. If a rule is disabled, the output should still be understandable to a maintainer reading the report.
+
+High-severity required evidence is gating by default. A report missing affected
+version, component, reproduction steps, security impact, or proof remains
+`needs_more_evidence` even if its numeric score is otherwise high.

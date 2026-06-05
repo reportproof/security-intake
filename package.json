@@ -18,6 +18,7 @@
     "dist/",
     "src/",
     "examples/",
+    "fixtures/",
     "docs/",
     "action.yml",
     "tsconfig.json",
@@ -32,9 +33,11 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "node dist/cli.js examples/good-report.md",
-    "check:syntax": "npm run build && node --check dist/cli.js && node --check dist/action.js && node --check dist/config.js && node --check dist/rules.js",
+    "check:syntax": "npm run build && node --check dist/cli.js && node --check dist/action.js && node --check dist/config.js && node --check dist/evaluate.js && node --check dist/rules.js",
     "demo:bad": "node dist/cli.js examples/ai-slop-report.md --no-fail",
     "demo:json": "node dist/cli.js examples/ai-slop-report.md --json --no-fail",
+    "evaluate": "npm run build && node dist/evaluate.js",
+    "eval": "npm run evaluate",
     "pack:dry-run": "npm pack --dry-run",
     "prepack": "npm run build",
     "test": "npm run build && node --test"

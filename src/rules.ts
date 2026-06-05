@@ -21,6 +21,7 @@ interface RequiredEvidenceRule extends BaseRule {
   category: "required_evidence";
   weight: number;
   patterns: RegExp[];
+  negativePatterns?: RegExp[];
 }
 
 interface LowQualityRule extends BaseRule {
@@ -89,6 +90,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     severity: "high",
     why: "Maintainers need a concrete release, tag, or commit before they can reproduce or scope a report.",
     patterns: [/\bversion\b/i, /\bcommit\b/i, /\bsha\b/i, /\brelease\b/i, /\btag\b/i],
+    negativePatterns: [
+      /\b(no|missing|without)\b.{0,100}\b(version|commit|sha|release|tag)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have)\b.{0,120}\b(version|commit|sha|release|tag)\b/i,
+    ],
   },
   {
     id: "RP002_AFFECTED_COMPONENT",
@@ -98,6 +103,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     severity: "high",
     why: "A report should name the component or code path that is allegedly vulnerable.",
     patterns: [/\bcomponent\b/i, /\bendpoint\b/i, /\broute\b/i, /\bpackage\b/i, /\bfile\b/i, /\bmodule\b/i],
+    negativePatterns: [
+      /\b(no|missing|without)\b.{0,100}\b(component|endpoint|route|package|file|module)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have)\b.{0,120}\b(component|endpoint|route|package|file|module)\b/i,
+    ],
   },
   {
     id: "RP003_REPRODUCTION_STEPS",
@@ -107,6 +116,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     severity: "high",
     why: "A maintainer should not have to reverse-engineer the claimed exploit path from a vague narrative.",
     patterns: [/\brepro/i, /\breproduce/i, /\bsteps?\b/i, /\bcommand\b/i, /\brequest\b/i, /\bcurl\b/i],
+    negativePatterns: [
+      /\b(no|missing|without)\b.{0,100}\b(repro|reproduce|steps?|command|request|curl)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have)\b.{0,120}\b(repro|reproduce|steps?|command|request|curl)\b/i,
+    ],
   },
   {
     id: "RP004_OBSERVED_RESULT",
@@ -116,6 +129,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     severity: "medium",
     why: "The report should describe what actually happened, not only what might happen.",
     patterns: [/\bobserved\b/i, /\bactual\b/i, /\bresult\b/i, /\bresponse\b/i, /\berror\b/i, /\blog\b/i],
+    negativePatterns: [
+      /\b(no|missing|without)\b.{0,100}\b(observed result|actual result|response|error log|log)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have)\b.{0,120}\b(observed result|actual result|response|error log|log)\b/i,
+    ],
   },
   {
     id: "RP005_SECURITY_IMPACT",
@@ -125,6 +142,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     severity: "high",
     why: "Maintainers need to understand the attacker capability or user/data impact.",
     patterns: [/\bimpact\b/i, /\battacker\b/i, /\bexploit/i, /\bprivilege\b/i, /\baccess\b/i, /\bdata\b/i, /\baccount\b/i],
+    negativePatterns: [
+      /\b(no|missing|without)\b.{0,120}\b(security impact|impact|attacker|exploit|privilege|access|data|account)\b/i,
+      /\b(cannot|can't|unable to|do not|don't|not)\b.{0,120}\b(provide|share|verify|determin\w*|have)\b.{0,120}\b(security impact|impact|attacker|exploit|privilege|access|data|account)\b/i,
+    ],
   },
   {
     id: "RP006_PROOF_OR_EVIDENCE",
@@ -134,6 +155,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     severity: "high",
     why: "Evidence such as a PoC, log, trace, payload, screenshot, or failing test makes the report independently checkable.",
     patterns: [/\bpoc\b/i, /\bproof\b/i, /\bscreenshot\b/i, /\blog\b/i, /\btrace\b/i, /\bfailing test\b/i, /\bregression test\b/i, /\bpayload\b/i],
+    negativePatterns: [
+      /\b(no|missing|without)\b.{0,120}\b(poc|proof|screenshot|log|trace|failing test|regression test|payload)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have)\b.{0,120}\b(poc|proof|screenshot|log|trace|failing test|regression test|payload)\b/i,
+    ],
   },
   {
     id: "RP007_TESTED_ENVIRONMENT",
@@ -143,6 +168,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     severity: "medium",
     why: "Environment details help maintainers distinguish project bugs from local setup or dependency issues.",
     patterns: [/\benvironment\b/i, /\bos\b/i, /\bbrowser\b/i, /\bnode\b/i, /\bpython\b/i, /\bdocker\b/i],
+    negativePatterns: [
+      /\b(no|missing|without)\b.{0,100}\b(environment|os|browser|node|python|docker)\b/i,
+      /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have)\b.{0,120}\b(environment|os|browser|node|python|docker)\b/i,
+    ],
   },
 ];
 
@@ -267,7 +296,9 @@ function decide({
     return "likely_low_quality_or_ai_generated";
   }
 
-  if (score < config.minReadyScore || missing.length > config.maxMissingForReady) {
+  const missingHighSeverityEvidence = missing.some((rule) => rule.severity === "high");
+
+  if (missingHighSeverityEvidence || score < config.minReadyScore || missing.length > config.maxMissingForReady) {
     return "needs_more_evidence";
   }
 
@@ -275,7 +306,13 @@ function decide({
 }
 
 function hasRequiredEvidence(text: string, rule: RequiredEvidenceRule): boolean {
-  return rule.patterns.some((pattern) => pattern.test(text));
+  return splitLines(text).some(
+    (line) => rule.patterns.some((pattern) => pattern.test(line)) && !isNegativeEvidenceLine(line, rule)
+  );
+}
+
+function isNegativeEvidenceLine(line: string, rule: RequiredEvidenceRule): boolean {
+  return Boolean(rule.negativePatterns?.some((pattern) => pattern.test(line)));
 }
 
 function splitLines(text: string): string[] {
