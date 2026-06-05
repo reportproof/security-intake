@@ -124,6 +124,8 @@ The external Action path is verified in
 which uses `reportproof/security-intake@main` from another public repository.
 For a copy-paste report-only workflow that uploads the generated Markdown
 result, see [docs/github-action-evaluation.md](docs/github-action-evaluation.md).
+The latest external playground trial is recorded in
+[docs/playground-trial-results.md](docs/playground-trial-results.md).
 
 Action outputs:
 
@@ -210,6 +212,7 @@ The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS s
 - Maintainer evaluation guide: [docs/maintainer-evaluation.md](docs/maintainer-evaluation.md)
 - Output gallery: [docs/output-gallery.md](docs/output-gallery.md)
 - GitHub Action evaluation: [docs/github-action-evaluation.md](docs/github-action-evaluation.md)
+- Playground trial results: [docs/playground-trial-results.md](docs/playground-trial-results.md)
 - Architecture: [docs/architecture.md](docs/architecture.md)
 - Release checklist: [docs/release.md](docs/release.md)
 - Validation plan: [docs/validation-plan.md](docs/validation-plan.md)

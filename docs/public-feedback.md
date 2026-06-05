@@ -29,6 +29,7 @@ Then inspect:
 - [Benchmark results](benchmark-results.md)
 - [Rule rubric](rubric.md)
 - [GitHub Action evaluation workflow](github-action-evaluation.md)
+- [External playground trial results](playground-trial-results.md)
 - [External GitHub Action playground](https://github.com/reportproof/security-intake-playground)
 
 ## What to judge
