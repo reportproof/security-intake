@@ -8,6 +8,7 @@ This project should earn trust through public artifacts before becoming a bigger
 - 5+ specific critiques from maintainers or security practitioners.
 - 3+ sanitized report examples shared by others.
 - 1+ repository tries the CLI or GitHub Action.
+- 1+ person tries or asks for the npm/`npx` CLI path.
 - 1+ person asks for org workflow, routing, audit trail, hosted queue, or integration support.
 
 ## 14-day public validation sprint
@@ -87,6 +88,8 @@ Minimum gate before broad posting:
   post drafts, and stop/continue rules.
 - `docs/openssf-best-practices.md` tracks OpenSSF Best Practices badge
   readiness.
+- `docs/distribution-strategy.md` documents the npm-first CLI path and
+  Marketplace deferral.
 - `docs/benchmark-results.md` is current.
 - `docs/oss-trial-results.md` is current.
 - `docs/public-advisory-trial.md` records the public advisory source set.
@@ -102,12 +105,14 @@ Minimum gate before broad posting:
 
 1. Run the 14-day public validation sprint.
 2. Convert concrete feedback into fixtures, wording changes, or documentation.
-3. Complete the OpenSSF Best Practices passing badge self-assessment if public
+3. Prepare the npm-first `v0.1.0` release path if maintainers ask for a CLI
+   install path or agree to try one.
+4. Complete the OpenSSF Best Practices passing badge self-assessment if public
    validation continues.
-4. Add snapshot tests for Markdown and JSON output if output wording becomes a
+5. Add snapshot tests for Markdown and JSON output if output wording becomes a
    feedback focus.
-5. Add an issue, private-report, or `SECURITY.md` template generator if
+6. Add an issue, private-report, or `SECURITY.md` template generator if
    maintainers ask for it.
-6. Add advisory GitHub Action comments only after users ask to run this in real
+7. Add advisory GitHub Action comments only after users ask to run this in real
    GitHub workflows.
-7. Only then consider hosted org workflow.
+8. Only then consider hosted org workflow.

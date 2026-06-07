@@ -44,6 +44,8 @@ The sprint is trying to answer one question:
   dependency, and AI-summary report shapes.
 - External GitHub Action playground has passed against ready, missing-evidence,
   and low-quality example reports.
+- npm package name `@reportproof/security-intake` is not published yet; npm is
+  the planned first release channel for the CLI.
 
 These results prove deterministic behavior on the current corpus. They do not
 prove real maintainer usefulness.
@@ -55,6 +57,7 @@ Continue building if, by 2026-06-19, at least three of these are true:
 - 5+ specific critiques from maintainers or security triagers.
 - 2+ sanitized or synthetic report examples shared by people outside the project.
 - 1+ external repository tries the CLI or GitHub Action.
+- 1+ maintainer asks for an npm/`npx` install path or tries a tarball release.
 - 1+ maintainer says the generated response would save triage time.
 - 1+ person asks for workflow support such as GitHub advisory integration,
   SECURITY.md generation, routing, audit history, Slack/Jira/GitHub comments, or
@@ -93,6 +96,7 @@ Defer:
 - Broad "launch" posts.
 - Paid ads.
 - Enterprise security sales outreach.
+- GitHub Marketplace listing until the versioned Action has external usage.
 
 ## Public Post Draft
 
@@ -153,7 +157,8 @@ Choose one:
 - Continue OSS validation: maintainers tried it but want rubric/output changes.
 - Build integration: people ask for GitHub advisory, issue-template, Action
   comments, or routing support.
+- Publish npm `v0.1.0`: people ask for the CLI install path or agree to try
+  `npx @reportproof/security-intake`.
 - Keep as learning project: feedback is positive but not usage-oriented.
 - Pivot: maintainers do not see value or the workflow is better solved by
   existing templates/platforms.
-
