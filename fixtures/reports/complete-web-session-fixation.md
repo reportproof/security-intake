@@ -1,6 +1,6 @@
 # Complete Synthetic Report: Session Fixation
 
-Affected version: ReportProof Demo App version 1.4.2, commit `abc1234`.
+Affected version: Reportproof Demo App version 1.4.2, commit `abc1234`.
 
 Affected component: `/login/callback` endpoint in file `src/routes/session.ts`.
 

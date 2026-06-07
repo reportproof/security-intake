@@ -10,7 +10,7 @@ Evidence checks for security reports before maintainers triage them.
 
 ## Why this exists
 
-Maintainers are being asked to spend time on reports that look plausible but lack affected versions, reproduction steps, proof of impact, or any tested evidence. The first ReportProof goal is to make incomplete reports cheap to identify, cheap to respond to, and easy to improve.
+Maintainers are being asked to spend time on reports that look plausible but lack affected versions, reproduction steps, proof of impact, or any tested evidence. The first Reportproof goal is to make incomplete reports cheap to identify, cheap to respond to, and easy to improve.
 
 See [docs/problem.md](docs/problem.md) for the public evidence behind the problem.
 

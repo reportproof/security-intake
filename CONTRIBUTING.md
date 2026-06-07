@@ -1,6 +1,6 @@
 # Contributing
 
-ReportProof is validating a narrow workflow: checking whether security reports contain enough evidence before maintainer triage.
+Reportproof is validating a narrow workflow: checking whether security reports contain enough evidence before maintainer triage.
 
 Useful contributions are specific and evidence-backed.
 

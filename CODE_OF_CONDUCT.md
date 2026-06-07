@@ -1,6 +1,6 @@
 # Code of Conduct
 
-ReportProof is a technical project for improving security report intake. Public discussion should stay specific, respectful, and evidence-based.
+Reportproof is a technical project for improving security report intake. Public discussion should stay specific, respectful, and evidence-based.
 
 ## Expected behavior
 

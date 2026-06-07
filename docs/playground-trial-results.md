@@ -19,7 +19,7 @@ project.
 - Playground commit:
   [`231ddff`](https://github.com/reportproof/security-intake-playground/commit/231ddff0d5a798b1021e0ac95eca249365e3c7bb)
 - Consumed `security-intake` commit:
-  [`1c01406`](https://github.com/reportproof/security-intake/commit/1c01406db561614c0e308205b2d753c732bc30ec)
+  [`4ab43b8`](https://github.com/reportproof/security-intake/commit/4ab43b8343ea722e5273b4632d395e36c82022ff)
 - Runner: GitHub-hosted `ubuntu-24.04`
 - Token permissions observed in logs: `contents: read`, `metadata: read`
 
