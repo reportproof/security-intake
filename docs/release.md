@@ -2,6 +2,10 @@
 
 This repo is release-ready when the checks below pass.
 
+The first release target is `v0.1.0`, distributed npm-first as a CLI and then as
+a versioned GitHub Action. See
+[distribution-strategy.md](distribution-strategy.md).
+
 ## Before tagging
 
 - `npm test`
@@ -24,6 +28,22 @@ This repo is release-ready when the checks below pass.
 - `npm run build` creates committed `dist/` runtime files for the CLI and GitHub Action.
 - `action.yml` uses `runs.using: node24`; do not release Node 20-based Action metadata.
 - `CHANGELOG.md` has an entry for the release.
+- `docs/distribution-strategy.md` reflects the current npm, Action, and
+  Marketplace plan.
+
+## Before publishing to npm
+
+- Confirm `@reportproof/security-intake` is controlled by this project.
+- Configure npm trusted publishing for the release workflow.
+- Use OIDC trusted publishing instead of a long-lived npm token.
+- Verify the published package will include npm provenance.
+- Run `npm run pack:dry-run` and inspect the included files.
+- Install the generated tarball from a clean temporary directory, create a
+  sample `report.md`, and run `npx security-intake report.md --no-fail`.
+- Tag the release as `v0.1.0`.
+- Confirm the GitHub Action works as `reportproof/security-intake@v0.1.0`.
+- Add the npm quick start to the README only when the package is actually
+  published.
 
 ## Versioning
 
@@ -35,4 +55,6 @@ Use `0.x` while the rule rubric and output schema are still changing.
 
 ## Publishing
 
-Do not publish to npm or create a GitHub Marketplace release until at least one outside user has tried the CLI or Action and the project has public feedback issues to guide the next release.
+Publishing to npm is the next distribution milestone once the `v0.1.0` publish
+gate is satisfied. Do not publish to GitHub Marketplace or build a hosted
+workflow until external usage shows that maintainers want those paths.

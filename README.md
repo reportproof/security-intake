@@ -37,6 +37,16 @@ node dist/cli.js examples/ai-slop-report.md --no-fail
 
 Requires Node.js 24 or newer.
 
+The planned `v0.1.0` release will make the CLI available through npm as:
+
+```bash
+npx @reportproof/security-intake@latest report.md --no-fail
+```
+
+Until the first npm release exists, use the local clone or GitHub Action paths.
+The npm-first distribution plan is documented in
+[docs/distribution-strategy.md](docs/distribution-strategy.md).
+
 ## Try It In 5 Minutes
 
 Use this path if you are validating whether the tool is worth trying on your own maintainer workflow:
@@ -220,6 +230,7 @@ The synthetic validation corpus lives in [fixtures/](fixtures/) and public OSS s
 - Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
 - Repository governance: [docs/repository-governance.md](docs/repository-governance.md)
 - OpenSSF Best Practices readiness: [docs/openssf-best-practices.md](docs/openssf-best-practices.md)
+- Distribution strategy: [docs/distribution-strategy.md](docs/distribution-strategy.md)
 - Code of conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 - Support scope: [SUPPORT.md](SUPPORT.md)
 - Public feedback guide: [docs/public-feedback.md](docs/public-feedback.md)
