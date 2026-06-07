@@ -44,6 +44,7 @@
     "oss-trial:results": "npm run build && node dist/evaluate.js --report oss-trial --output docs/oss-trial-results.md",
     "check:oss-trial-results": "npm run build && node dist/evaluate.js --report oss-trial --check-output docs/oss-trial-results.md",
     "pack:dry-run": "npm pack --dry-run",
+    "prepare": "[ -d .git ] && npx lefthook install || true",
     "prepack": "npm run build",
     "test": "npm run build && node --test"
   },
@@ -63,6 +64,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.13.0",
+    "lefthook": "^2.1.9",
     "typescript": "^6.0.3"
   }
 }
