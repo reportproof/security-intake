@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { allRules } from "./rules.js";
 export const DEFAULT_CONFIG = Object.freeze({
     minReadyScore: 70,
     maxMissingForReady: 2,
@@ -10,6 +11,15 @@ export const DEFAULT_CONFIG = Object.freeze({
     disabledRules: [],
 });
 const DEFAULT_CONFIG_FILES = [".security-intake.json", ".security-intake.yml", ".security-intake.yaml"];
+const CONFIG_KEYS = new Set([
+    "minReadyScore",
+    "maxMissingForReady",
+    "lowQualitySignalsForLikely",
+    "missingForLikelyLowQuality",
+    "penaltyPerLowQualitySignal",
+    "maxPenalty",
+    "disabledRules",
+]);
 export async function loadConfig(configPath = null, cwd = process.cwd()) {
     const resolvedPath = configPath ? path.resolve(cwd, configPath) : await findDefaultConfig(cwd);
     if (!resolvedPath)
@@ -82,6 +92,7 @@ function parseValue(value) {
     return trimmed.replace(/^["']|["']$/g, "");
 }
 function normalizeConfig(config) {
+    validateKnownKeys(config);
     const normalized = {
         ...DEFAULT_CONFIG,
         disabledRules: normalizeDisabledRules(config.disabledRules),
@@ -99,7 +110,37 @@ function normalizeConfig(config) {
             normalized[key] = value;
         }
     }
+    validateNumericRanges(normalized);
+    validateDisabledRules(normalized.disabledRules);
     return normalized;
+}
+function validateKnownKeys(config) {
+    for (const key of Object.keys(config)) {
+        if (!CONFIG_KEYS.has(key)) {
+            throw new Error(`Unknown config key: ${key}.`);
+        }
+    }
+}
+function validateNumericRanges(config) {
+    requireRange(config.minReadyScore, "minReadyScore", 0, 100);
+    requireRange(config.maxMissingForReady, "maxMissingForReady", 0, allRules().length);
+    requireRange(config.lowQualitySignalsForLikely, "lowQualitySignalsForLikely", 0, allRules().length);
+    requireRange(config.missingForLikelyLowQuality, "missingForLikelyLowQuality", 0, allRules().length);
+    requireRange(config.penaltyPerLowQualitySignal, "penaltyPerLowQualitySignal", 0, 100);
+    requireRange(config.maxPenalty, "maxPenalty", 0, 100);
+}
+function requireRange(value, key, min, max) {
+    if (value < min || value > max) {
+        throw new Error(`Config value ${key} must be between ${min} and ${max}.`);
+    }
+}
+function validateDisabledRules(ruleIds) {
+    const knownRuleIds = new Set(allRules().map((rule) => rule.id));
+    for (const ruleId of ruleIds) {
+        if (!knownRuleIds.has(ruleId)) {
+            throw new Error(`Unknown disabled rule: ${ruleId}.`);
+        }
+    }
 }
 function stripInlineComment(line) {
     let quote = null;

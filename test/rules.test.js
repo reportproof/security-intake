@@ -30,6 +30,55 @@ test("marks vague AI-style reports as low quality", async () => {
   assert.ok(result.lowQualitySignals.length >= 3);
 });
 
+test("does not count headings and unknown placeholders as evidence", () => {
+  const result = analyzeReport([
+    "# Security report template",
+    "",
+    "## Affected version",
+    "Version: unknown",
+    "",
+    "## Affected component",
+    "Component: TBD",
+    "",
+    "## Reproduction steps",
+    "Steps: not provided",
+    "",
+    "## Observed result",
+    "Observed result: not available",
+    "",
+    "## Security impact",
+    "Impact: unknown",
+    "",
+    "## Proof of concept",
+    "PoC: N/A",
+    "",
+    "## Environment",
+    "Environment: not sure",
+  ].join("\n"));
+
+  assert.equal(result.decision, "needs_more_evidence");
+  assert.equal(result.score, 0);
+  assert.deepEqual(
+    result.missing.map((rule) => rule.id),
+    [
+      "RP001_AFFECTED_VERSION",
+      "RP002_AFFECTED_COMPONENT",
+      "RP003_REPRODUCTION_STEPS",
+      "RP004_OBSERVED_RESULT",
+      "RP005_SECURITY_IMPACT",
+      "RP006_PROOF_OR_EVIDENCE",
+      "RP007_TESTED_ENVIRONMENT",
+    ]
+  );
+});
+
+test("suggested response includes specific evidence requests", () => {
+  const result = analyzeReport("Version 1.0.0\nEndpoint /api/session\nNode 24");
+
+  assert.match(result.suggestedResponse, /provide the exact steps, request, command, or minimal example/i);
+  assert.match(result.suggestedResponse, /explain the attacker capability/i);
+});
+
 test("loads simple YAML config and disables selected rules", async () => {
   const config = await loadConfig(".security-intake.yml", new URL("..", import.meta.url).pathname);
   assert.equal(config.minReadyScore, 70);
@@ -63,6 +112,19 @@ test("loads inline YAML arrays and strips comments", async () => {
 
   assert.equal(config.minReadyScore, 60);
   assert.deepEqual(config.disabledRules, ["RP105_AI_GENERATED_DISCLOSURE", "RP103_GENERIC_SCANNER_DUMP"]);
+});
+
+test("rejects invalid config keys, ranges, and disabled rules", async () => {
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "security-intake-invalid-config-"));
+
+  await fs.writeFile(path.join(tempDir, ".security-intake.yml"), "minReadinessScore: 60\n");
+  await assert.rejects(() => loadConfig(null, tempDir), /Unknown config key: minReadinessScore/);
+
+  await fs.writeFile(path.join(tempDir, ".security-intake.yml"), "minReadyScore: 101\n");
+  await assert.rejects(() => loadConfig(null, tempDir), /minReadyScore must be between 0 and 100/);
+
+  await fs.writeFile(path.join(tempDir, ".security-intake.yml"), "disabledRules: [RP999_NOT_A_RULE]\n");
+  await assert.rejects(() => loadConfig(null, tempDir), /Unknown disabled rule: RP999_NOT_A_RULE/);
 });
 
 test("action runner writes result file and GitHub outputs", async () => {

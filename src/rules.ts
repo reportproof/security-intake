@@ -22,6 +22,7 @@ interface RequiredEvidenceRule extends BaseRule {
   weight: number;
   patterns: RegExp[];
   negativePatterns?: RegExp[];
+  placeholderPatterns?: RegExp[];
 }
 
 interface LowQualityRule extends BaseRule {
@@ -94,6 +95,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
       /\b(no|missing|without)\b.{0,100}\b(version|commit|sha|release|tag)\b/i,
       /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have|know|identify|confirm)\b.{0,120}\b(version|commit|sha|release|tag)\b/i,
     ],
+    placeholderPatterns: [
+      /\b(version|commit|sha|release|tag)\b.{0,40}\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b/i,
+      /\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b.{0,40}\b(version|commit|sha|release|tag)\b/i,
+    ],
   },
   {
     id: "RP002_AFFECTED_COMPONENT",
@@ -106,6 +111,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     negativePatterns: [
       /\b(no|missing|without)\b.{0,100}\b(component|endpoint|route|package|file|module)\b/i,
       /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have|know|identify|confirm)\b.{0,120}\b(component|endpoint|route|package|file|module)\b/i,
+    ],
+    placeholderPatterns: [
+      /\b(component|endpoint|route|package|file|module)\b.{0,40}\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b/i,
+      /\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b.{0,40}\b(component|endpoint|route|package|file|module)\b/i,
     ],
   },
   {
@@ -120,6 +129,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
       /\b(no|missing|without)\b.{0,100}\b(repro|reproduce|steps?|command|request|curl)\b/i,
       /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|determin\w*|have|know|identify|confirm)\b.{0,120}\b(repro|reproduce|steps?|command|request|curl)\b/i,
     ],
+    placeholderPatterns: [
+      /\b(repro|reproduce|steps?|command|request|curl)\b.{0,40}\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b/i,
+      /\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b.{0,40}\b(repro|reproduce|steps?|command|request|curl)\b/i,
+    ],
   },
   {
     id: "RP004_OBSERVED_RESULT",
@@ -133,6 +146,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
       /\b(no|missing|without)\b.{0,100}\b(observed result|actual result|response|error log|log)\b/i,
       /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have|know|identify|confirm)\b.{0,120}\b(observed result|actual result|response|error log|log)\b/i,
     ],
+    placeholderPatterns: [
+      /\b(observed result|actual result|response|error log|log)\b.{0,40}\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b/i,
+      /\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b.{0,40}\b(observed result|actual result|response|error log|log)\b/i,
+    ],
   },
   {
     id: "RP005_SECURITY_IMPACT",
@@ -145,6 +162,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     negativePatterns: [
       /\b(no|missing|without)\b.{0,120}\b(security impact|impact|attacker|exploit|privilege|access|data|account)\b/i,
       /\b(cannot|can't|unable to|do not|don't|not)\b.{0,120}\b(provide|share|verify|determin\w*|have|know|identify|confirm)\b.{0,120}\b(security impact|impact|attacker|exploit|privilege|access|data|account)\b/i,
+    ],
+    placeholderPatterns: [
+      /\b(security impact|impact|attacker|exploit|privilege|access|data|account)\b.{0,40}\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b/i,
+      /\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b.{0,40}\b(security impact|impact|attacker|exploit|privilege|access|data|account)\b/i,
     ],
   },
   {
@@ -163,11 +184,17 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
       /\btrace\b/i,
       /\bfailing test\b/i,
       /\bregression test\b/i,
+      /\b(attached|following|below|included|provided)\b.{0,50}\b(test|poc|proof|reproducer)\b/i,
+      /\b(test|poc|proof|reproducer)\b.{0,50}\b(attached|included|provided)\b/i,
       /\bpayload\b/i,
     ],
     negativePatterns: [
       /\b(no|missing|without)\b.{0,120}\b(poc|proof|screenshot|log|trace|failing test|regression test|payload)\b/i,
       /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have|know|identify|confirm)\b.{0,120}\b(poc|proof|screenshot|log|trace|failing test|regression test|payload)\b/i,
+    ],
+    placeholderPatterns: [
+      /\b(poc|proof|screenshot|log|trace|failing test|regression test|payload)\b.{0,40}\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b/i,
+      /\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b.{0,40}\b(poc|proof|screenshot|log|trace|failing test|regression test|payload)\b/i,
     ],
   },
   {
@@ -181,6 +208,10 @@ export const REQUIRED_EVIDENCE_RULES: RequiredEvidenceRule[] = [
     negativePatterns: [
       /\b(no|missing|without)\b.{0,100}\b(environment|os|browser|node|python|docker)\b/i,
       /\b(cannot|can't|unable to|do not|don't)\b.{0,120}\b(provide|share|verify|have|know|identify|confirm)\b.{0,120}\b(environment|os|browser|node|python|docker)\b/i,
+    ],
+    placeholderPatterns: [
+      /\b(environment|os|browser|node|python|docker)\b.{0,40}\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b/i,
+      /\b(unknown|unsure|not sure|n\/a|tbd|to be determined|not provided|not available)\b.{0,40}\b(environment|os|browser|node|python|docker)\b/i,
     ],
   },
 ];
@@ -317,12 +348,24 @@ function decide({
 
 function hasRequiredEvidence(text: string, rule: RequiredEvidenceRule): boolean {
   return splitLines(text).some(
-    (line) => rule.patterns.some((pattern) => pattern.test(line)) && !isNegativeEvidenceLine(line, rule)
+    (line) =>
+      !isMarkdownHeadingOnly(line) &&
+      rule.patterns.some((pattern) => pattern.test(line)) &&
+      !isNegativeEvidenceLine(line, rule) &&
+      !isPlaceholderEvidenceLine(line, rule)
   );
 }
 
 function isNegativeEvidenceLine(line: string, rule: RequiredEvidenceRule): boolean {
   return Boolean(rule.negativePatterns?.some((pattern) => pattern.test(line)));
+}
+
+function isPlaceholderEvidenceLine(line: string, rule: RequiredEvidenceRule): boolean {
+  return Boolean(rule.placeholderPatterns?.some((pattern) => pattern.test(line)));
+}
+
+function isMarkdownHeadingOnly(line: string): boolean {
+  return /^#{1,6}\s+[^:]+$/.test(line.trim());
 }
 
 function splitLines(text: string): string[] {
@@ -347,12 +390,33 @@ function buildSuggestedResponse(missing: RequiredEvidenceRule[], lowQualitySigna
     return "Thanks for the report. It includes enough initial evidence for maintainer review. We will validate the claim and follow up through the security process.";
   }
 
-  const missingText = missing.map((rule) => `- ${rule.id}: ${rule.label}`).join("\n");
+  const missingText = missing.map((rule) => `- ${rule.id}: ${rule.label} - ${evidenceRequest(rule.id)}`).join("\n");
   const qualityText = lowQualitySignals.length
     ? `\n\nThe report also contains low-confidence signals:\n${lowQualitySignals.map((rule) => `- ${rule.id}: ${rule.label}`).join("\n")}`
     : "";
 
   return `Thanks for the report. We cannot assess this as a vulnerability without the following evidence:\n${missingText}${qualityText}\n\nPlease resubmit with concrete affected versions, reproduction steps, observed behavior, and security impact.`;
+}
+
+function evidenceRequest(ruleId: string): string {
+  switch (ruleId) {
+    case "RP001_AFFECTED_VERSION":
+      return "name the affected release, tag, commit, or dependency version.";
+    case "RP002_AFFECTED_COMPONENT":
+      return "name the affected endpoint, package, module, file, or code path.";
+    case "RP003_REPRODUCTION_STEPS":
+      return "provide the exact steps, request, command, or minimal example needed to reproduce it.";
+    case "RP004_OBSERVED_RESULT":
+      return "describe the actual response, error, log entry, or behavior you observed.";
+    case "RP005_SECURITY_IMPACT":
+      return "explain the attacker capability and concrete user, data, privilege, or availability impact.";
+    case "RP006_PROOF_OR_EVIDENCE":
+      return "include sanitized proof such as a PoC, payload, log, trace, screenshot, or failing test.";
+    case "RP007_TESTED_ENVIRONMENT":
+      return "include the tested OS, runtime, browser, container, service, or deployment details.";
+    default:
+      return "provide concrete evidence for this field.";
+  }
 }
 
 export function toMarkdown(result: AnalysisResult): string {

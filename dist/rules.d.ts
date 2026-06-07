@@ -18,6 +18,7 @@ interface RequiredEvidenceRule extends BaseRule {
     weight: number;
     patterns: RegExp[];
     negativePatterns?: RegExp[];
+    placeholderPatterns?: RegExp[];
 }
 interface LowQualityRule extends BaseRule {
     category: "low_quality_signal";
