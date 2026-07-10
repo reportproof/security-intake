@@ -63,7 +63,7 @@
     "node": ">=24"
   },
   "devDependencies": {
-    "@types/node": "^24.13.0",
+    "@types/node": "^26.1.1",
     "lefthook": "^2.1.9",
     "typescript": "^6.0.3"
   }
